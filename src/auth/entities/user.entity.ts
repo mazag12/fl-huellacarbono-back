@@ -1,53 +1,56 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity('users')
+@Entity('tb_huellacarbono_user')
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({
-        type: 'varchar',
-        unique: true,
-        length: 255
-    })
-    email: string;
+  @Column({
+    type: 'varchar',
+    unique: true,
+    length: 255,
+  })
+  email: string;
 
-    @Column({ 
-        type: 'varchar', 
-        select: false
-    })
-    password: string
+  @Column({
+    type: 'varchar',
+    select: false,
+  })
+  password: string;
 
-    @Column({ type: 'varchar' })
-    fullName: string;
+  @Column({ type: 'varchar' })
+  fullName: string;
 
-    @Column({ type: 'varchar' })
-    cargo: string;
+  @Column({ type: 'varchar' })
+  cargo: string;
 
-    @Column({ type: 'varchar' })
-    locacion: string;
+  @Column({ type: 'varchar' })
+  locacion: string;
 
-    @Column( {
-        type: 'bit',
-        default: 1
-    })
-    isActive: number;
+  @Column({
+    type: 'bit',
+    default: 1,
+  })
+  isActive: number;
 
-    @Column('text', {
-        default: 'user'
-    })
-    roles: string; //'user','admin'
+  @Column('text', {
+    default: 'user',
+  })
+  roles: string; //'user','admin'
 
-    
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email = this.email.toLowerCase().trim();
+  }
 
-    @BeforeInsert()
-    checkFieldsBeforeInsert(){
-        this.email = this.email.toLowerCase().trim();
-    }
-
-    @BeforeUpdate()
-    checkFieldsBeforeUpdate(){
-        this.checkFieldsBeforeInsert();
-    }
-
+  @BeforeUpdate()
+  checkFieldsBeforeUpdate() {
+    this.checkFieldsBeforeInsert();
+  }
 }
