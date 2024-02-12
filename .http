@@ -1,0 +1,54 @@
+@V1=http://localhost:3322/api/v1
+
+@AUTH={{V1}}/auth
+@TK=Bearer {{ACCESS.response.body.data}}
+
+###~###~###~###~###~### 
+# @name ACCESS
+POST {{AUTH}}/signin
+
+{
+    "code": "A00004",
+    "password": "Bitel123*"
+}
+
+#############
+POST {{AUTH}}/signup
+Authorization: {{TK}}
+
+{
+    "code": "A00004",
+    "email": "invitado4@gmail.com",
+    "password": "Bitel123*",
+    "nombre": "Prueba",
+    "apellido": "Invitado"
+}
+
+#############
+POST {{V1}}/consumo-sein/ingreso
+
+{
+    "consumo_sein_tipo_id": 1,
+    "suministro": "Prueba Sumnistro",
+    "cantidad": "13",
+    "fecha_ingreso": "2023-01-01"
+}
+
+#############
+POST {{V1}}/consumo-sein/tipo
+
+{
+    "unidad": "KWH",
+    "factor": 1,
+    "co2": 0.0006,
+    "ch4": 0.0001,
+    "n2o": 0.0001
+}
+
+#############
+DELETE {{V1}}/consumo-sein/tipo/1
+Authorization: {{TK}}
+
+#############
+GET {{V1}}/consumo-sein/ingreso
+Authorization: {{TK}}

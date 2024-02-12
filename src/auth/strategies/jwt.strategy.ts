@@ -6,12 +6,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    configService: ConfigService,
-  ) {
+  constructor() {
     super({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: configService.get('JWT_SEED'),
+        secretOrKey: process.env.JWT_SEED,
     });
   }
 

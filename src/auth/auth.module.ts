@@ -12,12 +12,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
 
 @Module({
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, { provide: APP_GUARD, useClass: JwtGuard, }],
   imports: [
-    ConfigModule,
-    TypeOrmModule.forFeature([User], 'DEV'),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    TypeOrmModule.forFeature([User], 'DEV'),
     JwtModule.registerAsync({
       useFactory: async () => ({
         secret: process.env.JWT_SEED,
@@ -28,6 +25,12 @@ import { JwtGuard } from './guards/jwt.guard';
       }),
     }),
   ],
-  exports: [TypeOrmModule, JwtStrategy, PassportModule, JwtModule],
+  controllers: [AuthController],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    { provide: APP_GUARD, useClass: JwtGuard, }
+  ],
+  exports: [],
 })
 export class AuthModule {}

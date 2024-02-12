@@ -3,10 +3,12 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'tb_huellacarbono_refrigerante_tipo' })
 export class RefrigeranteTipo {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @Column('varchar', { length: 50, nullable: false })
+    @Column('varchar', { length: 150, nullable: false })
     nombre: string;
 
+    @Column('bit')
+    flag_activo: boolean;
 }

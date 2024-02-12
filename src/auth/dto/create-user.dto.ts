@@ -1,36 +1,35 @@
-import { IsArray, IsBoolean, IsEmail, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsStrongPassword, Length } from 'class-validator';
 
 export class CreateUserDto {
 
+    @IsNotEmpty()
     @IsString()
+    @Length(6, 6)
+    code: string;
+
+    @IsNotEmpty()
     @IsEmail()
     email: string;
 
+    @IsNotEmpty()
     @IsString()
-    @MinLength(6)
-    @MaxLength(50)
-    @Matches(
-    /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'The password must have a Uppercase, lowercase letter and a number'
-    })
+    @IsStrongPassword({ minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 })
     password: string;
 
+    @IsNotEmpty()
     @IsString()
-    @MinLength(1)
-    fullName: string;
-    
-    @MinLength(6)
-    @MaxLength(50)
-    cargo: string;
+    nombre: string;
 
-    @MinLength(6)
-    @MaxLength(50)
-    locacion: string;
-    
-    @IsNumber()
-    isActive: number = 1;
-  
+    @IsNotEmpty()
     @IsString()
-    roles: string = 'user';
+    apellido: string;
 
+    @IsOptional()
+    @IsString()
+    @IsIn(['ADMIN', 'USER'])
+    role: string = 'USER';
+
+    @IsOptional()
+    @IsNumber({}, { each: true })
+    area: number[];
 }

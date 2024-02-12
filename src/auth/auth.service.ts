@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { LoginDto, CreateUserDto } from './dto';
-import { JwtPayLoad } from './interfaces/jwt-payload';
+import { AuthUser } from './interfaces/auth-user.interface';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -21,49 +21,28 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(createUserDto: CreateUserDto) {
-    try {
-      const { password, ...userData } = createUserDto;
-
-      const user = this.userRepository.create({
-        ...userData,
-        password: bcrypt.hashSync(password, 10),
-      });
-
-      await this.userRepository.save(user);
-      delete user.password;
-
-      return {
-        ...user,
-        token: this.getJwtToken({ email: user.email }),
-      };
-    } catch (error) {
-      if (error.code == '11000') {
-        throw new BadRequestException(`${createUserDto.email} already exists!`);
-      }
-      throw new InternalServerErrorException('Somethin terribe happen!!!');
-    }
+  async register(dto: CreateUserDto) {
+    const { password, ...userData } = dto;
+    const user = await this.userRepository.save({ ...userData, password: bcrypt.hashSync(password, 10)});
+    delete user.password;
+    return user;
   }
 
   async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+    const { code, password } = loginDto;
 
     const user = await this.userRepository.findOne({
-      where: { email },
-      select: { email: true, password: true, id: true },
+      where: { code },
+      select: ['id', 'code', 'email', 'nombre', 'apellido', 'password', 'isActive', 'role'],
     });
+    if (!user) throw new UnauthorizedException('Credenciales invalidas, codigo inexistente');
+    if (!user.isActive) throw new UnauthorizedException('El usuario no esta activo');
+    if (!bcrypt.compareSync(password, user.password))
+      throw new UnauthorizedException('Contraseña incorrecta');
 
-    if (!user) throw new UnauthorizedException('Not valid credentials - email');
-    if (!bcrypt.compareSync(password, user.password)) throw new UnauthorizedException('Not valid credentials - password');
-
-    return {
-      ...user,
-      token: this.getJwtToken({ email: user.email }),
-    };
+    return await this.getJwtToken(user);
   }
 
-  getJwtToken(payload: JwtPayLoad) {
-    const token = this.jwtService.signAsync(payload);
-    return token;
-  }
+  getJwtToken = ({ id, email, nombre, apellido, code, role }) => 
+    this.jwtService.signAsync({ sub: +id, email, nombre, apellido, code, role })
 }

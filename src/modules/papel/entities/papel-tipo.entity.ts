@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'tb_huellacarbono_papel_tipo' })
 export class PapelTipo {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
     @Column('varchar', { length: 250 })
@@ -14,5 +14,8 @@ export class PapelTipo {
     
     @Column('numeric', { precision: 18, scale: 6 })
     co2: number;
+
+    @Column('bit')
+    flag_activo: boolean;
 
 }

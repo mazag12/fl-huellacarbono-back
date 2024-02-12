@@ -7,7 +7,9 @@ import { RefrigeranteEquipo } from './entities/refrigerante-equipo.entity';
 import { RefrigeranteTipo } from './entities/refrigerante-tipo.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RefrigeranteIngreso, RefrigeranteEquipo, RefrigeranteTipo], 'DEV')],
+  imports: [
+    TypeOrmModule.forFeature([RefrigeranteIngreso, RefrigeranteEquipo, RefrigeranteTipo], 'DEV')
+  ],
   controllers: [RefrigeranteController],
   providers: [RefrigeranteService],
 })

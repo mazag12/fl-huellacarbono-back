@@ -2,24 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { AguaIngreso } from './entities/agua-ingreso.entity';
 import { DataSource, Repository } from 'typeorm';
+import PaginationDto from 'src/common/dto/pagination.dto';
+import { createFilter } from 'src/common/utils/filter';
+import { UpsertAguaIngresoDto } from './dto/upsert-agua-ingreso.dto';
+import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 
 @Injectable()
 export class AguaService {
   constructor(
-    @InjectRepository(AguaIngreso, 'PROD')
+    @InjectRepository(AguaIngreso, 'DEV')
     private readonly aguaIngresoRepo: Repository<AguaIngreso>,
 
-    @InjectDataSource('PROD')
-    private readonly PROD: DataSource,
+    @InjectDataSource('DEV')
+    private readonly DEV: DataSource,
   ) {}
 
-  async getAllAguaIngreso() {
+  async getAllAguaIngreso(pg: PaginationDto) {
+    const where = createFilter(pg);
+    return await this.aguaIngresoRepo.find({
+      where,
+      take: pg.limit,
+      skip: pg.offset,
+    });
   }
 
-  postAguaIngreso = (data /* Agregar el DTO a lo que resibiras en el body de tu peticion */) => 
-    this.aguaIngresoRepo.save(data);
-
-  updateAguaInhreso = (data) => this.aguaIngresoRepo.update(data.id, data);
-
-  deleteAguaIngreso = (id) => this.aguaIngresoRepo.delete(id);
+  upsertAguaIngreso = (dt: UpsertAguaIngresoDto, u: AuthUser) =>
+    dt.id
+      ? this.aguaIngresoRepo.update(dt.id, { ...dt, persona_upsert: u.code })
+      : this.aguaIngresoRepo.save({ ...dt, persona_upsert: u.code });
 }

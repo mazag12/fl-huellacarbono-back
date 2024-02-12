@@ -1,15 +1,31 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TransporteResiduosTipo } from "./transporte-residuos-tipo.entity";
+import { TransporteResiduosSed } from "./transporte-residuos-sed.entity";
 
 @Entity({ name: 'tb_huellacarbono_transporte_residuos_ingreso' })
 export class TransporteResiduosIngreso {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
+
+    @OneToOne(() => TransporteResiduosTipo, { eager: true })
+    @JoinColumn({ name: 'tipo_transporte_residuos_id' })
+    tipo_transporte_residuos: TransporteResiduosTipo;
+
+    @Column('bigint')
+    tipo_transporte_residuos_id: number;
+
+    @OneToOne(() => TransporteResiduosSed, { eager: true })
+    @JoinColumn({ name: 'sed_transporte_residuos_id' })
+    sed_transporte_residuos: TransporteResiduosSed;
+
+    @Column('bigint')
+    sed_transporte_residuos_id: number;
 
     @Column('numeric', { precision: 18, scale: 6 })
     cantidad: number;
     
-    @Column('datetime')
+    @Column('date')
     fecha_ingreso: string;
 
     @Column('bit')
@@ -27,10 +43,10 @@ export class TransporteResiduosIngreso {
     @Column('numeric', { precision: 18, scale: 6 })
     crecimiento_anual: number;
     
-    @Column('datetime', { default: 'CURRENT_TIMESTAMP()' })
+    @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
     
-    @Column('datetime')
+    @Column('datetime', { nullable: true })
     updatedAt: string;
 
     @Column('varchar', { length: 6 })

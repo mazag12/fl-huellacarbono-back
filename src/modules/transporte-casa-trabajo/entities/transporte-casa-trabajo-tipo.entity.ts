@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'tb_huellacarbono_transporte_casa_trabajo_tipo' })
 export class TransporteCasaTrabajoTipo {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
     @Column('varchar', { length: 250, nullable: false })
@@ -17,5 +17,8 @@ export class TransporteCasaTrabajoTipo {
     
     @Column('numeric', { precision: 18, scale: 6 })
     n2o: number;
+
+    @Column('bit')
+    flag_activo: boolean;
     
 }

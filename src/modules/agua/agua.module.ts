@@ -6,7 +6,7 @@ import { AguaIngreso } from './entities/agua-ingreso.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AguaIngreso], 'PROD'),
+    TypeOrmModule.forFeature([AguaIngreso], 'DEV'),
   ],
   controllers: [AguaController],
   providers: [AguaService],

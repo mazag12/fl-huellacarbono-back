@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsNumber, IsOptional, IsPositive, Min } from 'class-validator';
 
-export default class PaginationPremiumDto {
+export default class PaginationDto {
 
     @IsOptional()
     @IsNumber()

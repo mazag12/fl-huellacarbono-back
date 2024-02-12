@@ -1,10 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TransporteCasaTrabajoTipo } from "./transporte-casa-trabajo-tipo.entity";
 
 @Entity({ name: 'tb_huellacarbono_transporte_casa_trabajo_ingreso' })
 export class TransporteCasaTrabajoIngreso {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
+
+    @OneToOne(() => TransporteCasaTrabajoTipo, { eager: true })
+    @JoinColumn({ name: 'tipo_transporte_casa_trabajo_id' })
+    tipo_transporte_casa_trabajo: TransporteCasaTrabajoTipo;
+
+    @Column('bigint')
+    tipo_transporte_casa_trabajo_id: number;
 
     @Column('varchar', { length: 250 })
     descripcion_personal: string;
@@ -21,13 +29,13 @@ export class TransporteCasaTrabajoIngreso {
     @Column('int')
     distancia_promedio: number;
 
-    @Column('datetime')
+    @Column('date')
     fecha_ingreso: string;
     
-    @Column('datetime', { default: 'CURRENT_TIMESTAMP()' })
+    @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
     
-    @Column('datetime')
+    @Column('datetime', { nullable: true })
     updatedAt: string;
 
     @Column('varchar', { length: 6 })

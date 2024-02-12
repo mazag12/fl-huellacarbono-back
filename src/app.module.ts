@@ -32,16 +32,16 @@ const defaultOptions = () => ({
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ['.env.dev', '.env.prod'] }),
-    TypeOrmModule.forRootAsync({
-      name: 'PROD',
-      useFactory: async () => ({
-        database: process.env.DB_NAME,
-        host: process.env.DB_HOST_PROD,
-        type: 'mssql',
-        autoLoadEntities: true,
-        ...defaultOptions()
-      })
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   name: 'PROD',
+    //   useFactory: async () => ({
+    //     database: process.env.DB_NAME,
+    //     host: process.env.DB_HOST_PROD,
+    //     type: 'mssql',
+    //     autoLoadEntities: true,
+    //     ...defaultOptions()
+    //   })
+    // }),
     TypeOrmModule.forRootAsync({
       name: 'DEV',
       useFactory: async () => ({
@@ -49,7 +49,7 @@ const defaultOptions = () => ({
         host: process.env.DB_HOST_DEV,
         type: 'mssql',
         autoLoadEntities: true,
-        synchronize: true,
+        // synchronize: true,
         ...defaultOptions()
       })
     }),

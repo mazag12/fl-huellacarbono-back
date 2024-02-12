@@ -5,33 +5,36 @@ import { RefrigeranteTipo } from "./refrigerante-tipo.entity";
 @Entity({ name: 'tb_huellacarbono_refrigerante_ingreso' })
 export class RefrigeranteIngreso {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => RefrigeranteTipo, refrigerante_tipo => refrigerante_tipo.id)
-    @JoinColumn({ name: 'refrigerante_tipo_id' })
-    refrigenrante_tipo: RefrigeranteTipo;
+    @OneToOne(() => RefrigeranteTipo, { eager: true })
+    @JoinColumn({ name: 'tipo_refrigerante_id' })
+    tipo_refrigerante: RefrigeranteTipo;
 
-    @Column('int')
-    refrigerante_tipo_id: number;
+    @Column('bigint')
+    tipo_refrigerante_id: number;
 
-    @OneToOne(() => RefrigeranteEquipo, refrigerante_equipo => refrigerante_equipo.id)
-    @JoinColumn({ name: 'refrigerante_equipo_id' })
-    refrigerante_equipo: RefrigeranteEquipo;
+    @OneToOne(() => RefrigeranteEquipo, { eager: true })
+    @JoinColumn({ name: 'equipo_refrigerante_id' })
+    equipo_refrigerante: RefrigeranteEquipo;
 
-    @Column('int')
-    refrigerante_equipo_id: number;
+    @Column('bigint')
+    equipo_refrigerante_id: number;
 
     @Column('numeric', { precision: 18, scale: 6 })
     cantidad: number;
     
     @Column('numeric', { precision: 18, scale: 6 })
     capacidad_carga: number;
+
+    @Column('numeric', { precision: 18, scale: 6 })
+    fuga_instalacion: number;
     
     @Column('numeric', { precision: 18, scale: 6 })
     porcentaje_fuga: number;
     
-    @Column('datetime')
+    @Column('date')
     fecha_ingreso: string;
 
     @Column('varchar', { length: 250 })
@@ -46,10 +49,10 @@ export class RefrigeranteIngreso {
     @Column('numeric', { precision: 18, scale: 6 })
     fraccion_recuperacion: number;
     
-    @Column('datetime', { default: 'CURRENT_TIMESTAMP()' })
+    @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
     
-    @Column('datetime', { default: 'CURRENT_TIMESTAMP()' })
+    @Column('datetime', { nullable: true })
     updatedAt: string;
 
     @Column('varchar', { length: 6 })

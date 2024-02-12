@@ -1,14 +1,22 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TransporteAereoTipo } from "./transporte-aereo-tipo.entity";
 
 export class TransporteAereoIngreso {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
+
+    @OneToOne(() => TransporteAereoTipo, { eager: true })
+    @JoinColumn({ name: 'tipo_transporte_aereo_id' })
+    tipo_transporte_aereo: TransporteAereoTipo;
+
+    @Column('bigint')
+    tipo_transporte_aereo_id: number;
 
     @Column('numeric', { precision: 18, scale: 6 })
     cantidad: number;
     
-    @Column('datetime')
+    @Column('date')
     fecha_ingreso: string;
 
     @Column('varchar', { length: 250 })
@@ -26,10 +34,10 @@ export class TransporteAereoIngreso {
     @Column('int')
     numero_recorridos: number;
     
-    @Column('datetime', { default: 'CURRENT_TIMESTAMP()' })
+    @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
     
-    @Column('datetime')
+    @Column('datetime', { nullable: true })
     updatedAt: string;
 
     @Column('varchar', { length: 6 })
