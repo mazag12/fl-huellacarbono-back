@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpsertRefrigeranteIngresoDto {
     
@@ -31,8 +31,12 @@ export class UpsertRefrigeranteIngresoDto {
     porcentaje_fuga: number;
     
     @IsNotEmpty()
-    @IsString()
+    @IsDateString()
     fecha_ingreso: string;
+
+    @IsNotEmpty()
+    @IsString()
+    area: string;
     
     @IsNotEmpty()
     @IsString()

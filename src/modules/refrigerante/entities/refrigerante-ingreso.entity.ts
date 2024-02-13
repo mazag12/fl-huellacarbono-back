@@ -48,6 +48,9 @@ export class RefrigeranteIngreso {
 
     @Column('numeric', { precision: 18, scale: 6 })
     fraccion_recuperacion: number;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

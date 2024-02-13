@@ -21,4 +21,8 @@ export class UpsertConsumoSeinIngresoDto {
     @IsNotEmpty()
     @IsDateString()
     fecha_ingreso: string;
+
+    @IsNotEmpty()
+    @IsString()
+    area: string;
 }

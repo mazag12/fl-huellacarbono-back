@@ -25,17 +25,24 @@ Authorization: {{TK}}
 }
 
 #############
+GET {{AUTH}}/user-info/009216
+Authorization: {{TK}}
+
+#############
 POST {{V1}}/consumo-sein/ingreso
+Authorization: {{TK}}
 
 {
     "consumo_sein_tipo_id": 1,
     "suministro": "Prueba Sumnistro",
     "cantidad": "13",
-    "fecha_ingreso": "2023-01-01"
+    "fecha_ingreso": "2023-01-01",
+    "area": "TJ5 FOOTLOOSE - SAN MARTIN 478 - SAN MARTIN MOYOBAMBA"
 }
 
 #############
 POST {{V1}}/consumo-sein/tipo
+Authorization: {{TK}}
 
 {
     "unidad": "KWH",

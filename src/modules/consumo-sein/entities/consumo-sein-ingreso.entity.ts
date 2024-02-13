@@ -22,6 +22,9 @@ export class ConsumoSeinIngreso {
     
     @Column('date')
     fecha_ingreso: string;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

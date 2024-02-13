@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, CreateUserDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -18,7 +18,14 @@ export class AuthController {
   // @ApiBearerAuth()
   @Public()
   @Post('signup')
-  async register(@Body() createUserDto: CreateUserDto) {
-    return await this.authService.register(createUserDto);
+  register(@Body() createUserDto: CreateUserDto) {
+    return this.authService.register(createUserDto);
+  }
+
+  @Get('user-info/:code')
+  getUserInfo(
+    @Param('code') code: string
+  ) {
+    return this.authService.getUserInfo(code);
   }
 }

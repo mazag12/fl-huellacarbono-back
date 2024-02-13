@@ -42,6 +42,9 @@ export class TransporteResiduosIngreso {
     
     @Column('numeric', { precision: 18, scale: 6 })
     crecimiento_anual: number;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

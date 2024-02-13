@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpsertTransporteAereoIngresoDto {
     
@@ -15,8 +15,12 @@ export class UpsertTransporteAereoIngresoDto {
     cantidad: number;
     
     @IsNotEmpty()
-    @IsString()
+    @IsDateString()
     fecha_ingreso: string;
+
+    @IsNotEmpty()
+    @IsString()
+    area: string;
     
     @IsNotEmpty()
     @IsString()

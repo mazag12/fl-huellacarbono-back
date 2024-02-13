@@ -33,6 +33,9 @@ export class TransporteAereoIngreso {
     
     @Column('int')
     numero_recorridos: number;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

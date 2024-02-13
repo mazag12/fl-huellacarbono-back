@@ -11,6 +11,9 @@ export class AguaIngreso {
     
     @Column('date')
     fecha_ingreso: string;
+
+    @Column('varchar', { length: 250 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

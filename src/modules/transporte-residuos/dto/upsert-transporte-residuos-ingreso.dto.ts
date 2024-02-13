@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpsertTransporteResiduosIngresoDto {
 
@@ -19,8 +19,12 @@ export class UpsertTransporteResiduosIngresoDto {
     cantidad: number;
     
     @IsNotEmpty()
-    @IsString()
+    @IsDateString()
     fecha_ingreso: string;
+
+    @IsNotEmpty()
+    @IsString()
+    area: string;
 
     @IsNotEmpty()
     @IsBoolean()

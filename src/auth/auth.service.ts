@@ -9,14 +9,17 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { LoginDto, CreateUserDto } from './dto';
 import { AuthUser } from './interfaces/auth-user.interface';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User, 'DEV')
     private readonly userRepository: Repository<User>,
+
+    @InjectDataSource('DEV')
+    private readonly DEV: DataSource,
 
     private jwtService: JwtService,
   ) {}
@@ -45,4 +48,16 @@ export class AuthService {
 
   getJwtToken = ({ id, email, nombre, apellido, code, role }) => 
     this.jwtService.signAsync({ sub: +id, email, nombre, apellido, code, role })
+
+  getUserInfo = (code: string) => this.DEV.query(`SELECT p.CODIGO as code
+        , p.NOMBRE as nombre
+        , p.PATERNO as apepat
+        , p.MATERNO as apemat
+        , p.NUMERODOCUMENTO AS dni
+        , RTRIM(tcc.cencos_id) as ceco_id
+        , tcc.cencosname AS ceco_nombre
+        , tcc.Serie_pllagtos as ceco_serie
+      FROM PERSONA AS P WITH (NOLOCK)
+      INNER JOIN [SRV252].[bapEmpresa01].[dbo].[tb_centrocosto] AS tcc WITH(NOLOCK) ON tcc.cencosid COLLATE Modern_Spanish_CI_AS = p.AREA
+      WHERE p.FechaBaja = '' AND p.CODIGO = '${code}'`);
 }

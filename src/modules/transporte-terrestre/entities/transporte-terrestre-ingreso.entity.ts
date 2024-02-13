@@ -37,6 +37,9 @@ export class TransporteTerrestreIngreso {
     
     @Column('int')
     numero_personas: number;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UpsertTransporteInsumosIngresoDto {
     
@@ -15,7 +15,7 @@ export class UpsertTransporteInsumosIngresoDto {
     cantidad: number;
     
     @IsNotEmpty()
-    @IsString()
+    @IsDateString()
     fecha_ingreso: string;
     
     @IsNotEmpty()
@@ -37,4 +37,8 @@ export class UpsertTransporteInsumosIngresoDto {
     @IsNotEmpty()
     @IsNumber()
     distancia: number;
+
+    @IsNotEmpty()
+    @IsString()
+    area: string;
 }

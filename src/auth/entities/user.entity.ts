@@ -24,6 +24,6 @@ export class User {
   isActive: boolean;
 
   @Column('varchar', { default: 'USER' })
-  role: string;//  'ADMIN' | 'USER';
+  role: string; // 'ADMIN' | 'USER';
 
 }

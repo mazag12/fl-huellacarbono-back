@@ -28,6 +28,9 @@ export class PapelIngreso {
 
     @Column('numeric', { precision: 18, scale: 6 })
     densidad: number;
+
+    @Column('varchar', { length: 255 })
+    area: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
