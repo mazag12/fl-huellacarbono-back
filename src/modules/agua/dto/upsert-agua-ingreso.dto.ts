@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from "class-validator";
 
 export class UpsertAguaIngresoDto {
     
@@ -13,6 +13,10 @@ export class UpsertAguaIngresoDto {
     @IsNotEmpty()
     @IsDateString()
     fecha_ingreso: string;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 
     @IsNotEmpty()
     @IsString()

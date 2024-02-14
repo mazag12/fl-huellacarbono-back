@@ -5,6 +5,7 @@ import PaginationDto from 'src/common/dto/pagination.dto';
 import { UpsertAguaIngresoDto } from './dto/upsert-agua-ingreso.dto';
 import { User } from 'src/auth/decorators/get-user.decorator';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Agua')
@@ -23,5 +24,10 @@ export class AguaController {
   @Get('ingreso')
   getAllAguaIngreso(@Query() pg: PaginationDto) {
     return this.aguaService.getAllAguaIngreso(pg);
+  }
+
+  @Get('reporte')
+  getReporteAguaByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.aguaService.getReporteAguaByDate(dt);
   }
 }

@@ -8,7 +8,7 @@ export class UpsertConsumoSeinIngresoDto {
     
     @IsNotEmpty()
     @IsNumber()
-    consumo_sein_tipo_id: number;
+    tipo_consumo_sein_id: number;
     
     @IsNotEmpty()
     @IsString()
@@ -25,4 +25,8 @@ export class UpsertConsumoSeinIngresoDto {
     @IsNotEmpty()
     @IsString()
     area: string;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

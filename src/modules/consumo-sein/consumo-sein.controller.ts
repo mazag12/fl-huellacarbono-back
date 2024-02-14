@@ -6,6 +6,7 @@ import { UpsertConsumoSeinIngresoDto } from './dto/upsert-consumo-sein-ingreso.d
 import PaginationDto from 'src/common/dto/pagination.dto';
 import { User } from 'src/auth/decorators/get-user.decorator';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Consumo Sein')
@@ -22,8 +23,7 @@ export class ConsumoSeinController {
   }
 
   @Get('ingreso')
-  getAllConsumoSeinIngreso(@Query() pg: PaginationDto, @User() user: AuthUser) {
-    console.log("user => ", user);
+  getAllConsumoSeinIngreso(@Query() pg: PaginationDto) {
     return this.consumoSeinService.getAllConsumoSeinIngreso(pg);
   }
 
@@ -40,5 +40,10 @@ export class ConsumoSeinController {
   @Delete('tipo/:id')
   deleteConsumoSeinTipo(@Param('id') id: number) {
     return this.consumoSeinService.deleteConsumoSeinTipo(id);
+  }
+
+  @Get('reporte')
+  getReporteConsumoSeinByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.consumoSeinService.getReporteConsumoSeinByDate(dt);
   }
 }

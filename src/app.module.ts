@@ -14,6 +14,7 @@ import { AguaModule } from './modules/agua/agua.module';
 import { TransporteInsumosModule } from './modules/transporte-insumos/transporte-insumos.module';
 import { TransporteResiduosModule } from './modules/transporte-residuos/transporte-residuos.module';
 import { TransportePropioModule } from './modules/transporte-propio/transporte-propio.module';
+import { ReportesModule } from './modules/reportes/reportes.module';
 
 const defaultOptions = () => ({
   port: +process.env.DB_PORT,
@@ -49,11 +50,12 @@ const defaultOptions = () => ({
         host: process.env.DB_HOST_DEV,
         type: 'mssql',
         autoLoadEntities: true,
-        // synchronize: true,
+        synchronize: true,
         ...defaultOptions()
       })
     }),
     AuthModule,
+    ReportesModule,
     RefrigeranteModule,
     ElectricidadModule,
     FugaSf6Module,

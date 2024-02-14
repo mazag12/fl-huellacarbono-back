@@ -6,6 +6,7 @@ import { UpsertElectricidadTipoDto } from './dto/upsert-electricidad-tipo.dto';
 import { UpsertElectricidadIngresoDto } from './dto/upsert-electricidad-ingreso.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from '../../common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Electricidad')
@@ -39,5 +40,10 @@ export class ElectricidadController {
   @Delete('tipo/:id')
   deleteElectricidadTipo(@Param('id') id: number) {
     return this.electricidadService.deleteElectricidadTipo(id);
+  }
+
+  @Get('reporte')
+  getReporteElectricidadByDate(@Query() dto: GetReporteByTypeAndDateDto) {
+    return this.electricidadService.getReporteElectricidadByDate(dto);
   }
 }

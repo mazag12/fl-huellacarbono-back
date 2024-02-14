@@ -21,4 +21,8 @@ export class UpsertTransportePropioIngresoDto {
     @IsNotEmpty()
     @IsString()
     area: string;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

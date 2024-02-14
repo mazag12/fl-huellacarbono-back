@@ -15,13 +15,14 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  // @ApiBearerAuth()
-  @Public()
+  // @Public()
+  @ApiBearerAuth()
   @Post('signup')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 
+  @ApiBearerAuth()
   @Get('user-info/:code')
   getUserInfo(
     @Param('code') code: string

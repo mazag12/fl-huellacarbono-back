@@ -6,6 +6,7 @@ import PaginationDto from 'src/common/dto/pagination.dto';
 import { UpsertTransporteCasaTrabajoTipoDto } from './dto/upsert-transporte-casa-trabajo-tipo.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Transporte Casa Trabajo')
@@ -39,5 +40,10 @@ export class TransporteCasaTrabajoController {
   @Delete('tipo/:id')
   deleteTransporteCasaTrabajoTipo(@Param('id') id: number) {
     return this.transporteCasaTrabajoService.deleteTransporteCasaTrabajoTipo(id);
+  }
+
+  @Get('reporte')
+  getReporteTransporteCasaTrabajoByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.transporteCasaTrabajoService.getReporteTransporteCasaTrabajoByDate(dt);
   }
 }

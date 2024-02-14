@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RefrigeranteEquipo } from "./refrigerante-equipo.entity";
 import { RefrigeranteTipo } from "./refrigerante-tipo.entity";
 
@@ -8,14 +8,14 @@ export class RefrigeranteIngreso {
     @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => RefrigeranteTipo, { eager: true })
+    @ManyToOne(() => RefrigeranteTipo, { eager: true })
     @JoinColumn({ name: 'tipo_refrigerante_id' })
     tipo_refrigerante: RefrigeranteTipo;
 
     @Column('bigint')
     tipo_refrigerante_id: number;
 
-    @OneToOne(() => RefrigeranteEquipo, { eager: true })
+    @ManyToOne(() => RefrigeranteEquipo, { eager: true })
     @JoinColumn({ name: 'equipo_refrigerante_id' })
     equipo_refrigerante: RefrigeranteEquipo;
 
@@ -52,6 +52,9 @@ export class RefrigeranteIngreso {
     @Column('varchar', { length: 255 })
     area: string;
     
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
+
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;
     

@@ -30,16 +30,16 @@ export default class PaginationDto {
     /* SEQUELIZE */
 
     @IsOptional()
-    @Transform(v => v?.value?.split(','))
+    // @Transform(v => v?.value?.split(','))
     key?: string;
 
     @IsOptional()
     // @IsIn(['adjacent', 'all', 'and', 'any', 'between', 'col', 'contained', 'contains', 'endsWith', 'eq', 'gt', 'gte', 'iLike', 'in', 'iRegexp', 'is', 'like', 'lt', 'lte', 'match', 'ne', 'noExtendLeft', 'noExtendRight', 'not', 'notBetween', 'notILike', 'notIn', 'notIRegexp', 'notLike', 'notRegexp', 'or', 'overlap', 'placeholder', 'regexp', 'startsWith', 'strictLeft', 'strictRight', 'substring', 'values'])
-    @Transform(v => v?.value?.split(','))
+    // @Transform(v => v?.value?.split(','))
     operator?: string;
 
     @IsOptional()
-    @Transform(({ value }) => JSON.parse(value ?? '{}'))
+    // @Transform(({ value }) => JSON.parse(value ?? '{}'))
     value?: string;
 
 }

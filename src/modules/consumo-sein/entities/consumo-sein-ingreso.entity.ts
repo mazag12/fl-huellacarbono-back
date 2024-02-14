@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ConsumoSeinTipo } from "./consumo-sein-tipo.entity";
 
 @Entity({ name: 'tb_huellacarbono_consumo_sein_ingreso' })
@@ -7,12 +7,12 @@ export class ConsumoSeinIngreso {
     @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => ConsumoSeinTipo, { eager: true })
-    @JoinColumn({ name: 'consumo_sein_tipo_id' })
-    consumo_sein_tipo: ConsumoSeinTipo;
+    @ManyToOne(() => ConsumoSeinTipo, { eager: true })
+    @JoinColumn({ name: 'tipo_consumo_sein_id' })
+    tipo_consumo_sein: ConsumoSeinTipo;
 
-    @Column('bigint', { nullable: false })
-    consumo_sein_tipo_id: number;
+    @Column('bigint', { nullable: false, unique: false })
+    tipo_consumo_sein_id: number;
 
     @Column('varchar', { length: 150, nullable: false })
     suministro: string;
@@ -25,6 +25,9 @@ export class ConsumoSeinIngreso {
 
     @Column('varchar', { length: 255 })
     area: string;
+
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

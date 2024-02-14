@@ -34,7 +34,6 @@ async function bootstrap() {
     .setVersion(DOCS_VERSION)
     .addServer(DOCS_SERVER)
     .addBearerAuth()
-    .addBasicAuth()
     .build();
   SwaggerModule.setup(DOCS_URI, app, SwaggerModule.createDocument(app, config));
   app.listen(PORT, async () =>

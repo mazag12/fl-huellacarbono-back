@@ -30,16 +30,21 @@ export class TransporteTerrestreService {
 
   upsertTransporteTerrestreIngreso = (dt: UpsertTransporteTerrestreIngresoDto, u: AuthUser) =>
     dt.id
-      ? this.transporteTerrestreIngresoRepo.update(dt.id, { ...dt, persona_upsert: u.code })
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, { ...dt, persona_upsert: u.code }, 'transporteTerrestreIngresoRepo')
       : this.transporteTerrestreIngresoRepo.save({ ...dt, persona_upsert: u.code });
 
   getAllTransporteTerrestreTipo = () => this.transporteTerrestreTipoRepo.find();
 
   upsertTransporteTerrestreTipo = (dt: UpsertTransporteTerrestreTipoDto) =>
     dt.id
-      ? this.transporteTerrestreTipoRepo.update(dt.id, dt)
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, dt, 'transporteTerrestreTipoRepo')
       : this.transporteTerrestreTipoRepo.save(dt);
 
   deleteTransporteTerrestreTipo = (id: number) =>
     this.transporteTerrestreTipoRepo.update(id, { flag_activo: false });
+
+  methodDeleteIdFromDtoAndUpdate = (id: number, dto, repository) => {
+    delete dto.id;
+    return this[repository].update(id, dto);
+  }
 }

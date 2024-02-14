@@ -45,4 +45,8 @@ export class UpsertFugaSf6IngresoDto {
     @IsNotEmpty()
     @IsString()
     area: string;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

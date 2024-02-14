@@ -7,6 +7,7 @@ import { UpsertRefrigeranteEquipoDto } from './dto/upsert-refrigerante-equipo.dt
 import { UpsertRefrigeranteTipoDto } from './dto/upsert-refrigerante-tipo.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Refrigerante')
@@ -55,5 +56,10 @@ export class RefrigeranteController {
   @Delete('equipo/:id')
   deleteRefrigeranteEquipo(@Param('id') id: number) {
     return this.refrigeranteService.deleteRefrigeranteEquipo(id);
+  }
+
+  @Get('reporte')
+  getReporteRefrigeranteByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.refrigeranteService.getReporteRefrigeranteByDate(dt);
   }
 }

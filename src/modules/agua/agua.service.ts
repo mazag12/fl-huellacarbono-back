@@ -6,6 +6,7 @@ import PaginationDto from 'src/common/dto/pagination.dto';
 import { createFilter } from 'src/common/utils/filter';
 import { UpsertAguaIngresoDto } from './dto/upsert-agua-ingreso.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @Injectable()
 export class AguaService {
@@ -28,6 +29,17 @@ export class AguaService {
 
   upsertAguaIngreso = (dt: UpsertAguaIngresoDto, u: AuthUser) =>
     dt.id
-      ? this.aguaIngresoRepo.update(dt.id, { ...dt, persona_upsert: u.code })
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, { ...dt, persona_upsert: u.code }, 'aguaIngresoRepo')
       : this.aguaIngresoRepo.save({ ...dt, persona_upsert: u.code });
+
+  methodDeleteIdFromDtoAndUpdate = (id: number, dto, repository) => {
+    delete dto.id;
+    return this[repository].update(id, dto);
+  };
+
+  getReporteAguaByDate = async ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
+    this.DEV.query(`SELECT ing.area, ing.fecha_ingreso, SUM(medidor) as  cantidad, ing.evidencia_url
+        FROM tb_huellacarbono_agua_ingreso ing
+        WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}'
+        GROUP BY ing.area, ing.fecha_ingreso, ing.evidencia_url`)
 }

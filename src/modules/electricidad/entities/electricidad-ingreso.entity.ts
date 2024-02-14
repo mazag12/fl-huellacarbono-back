@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ElectricidadTipo } from "./electricidad-tipo.entity";
 
 @Entity({ name: 'tb_huellacarbono_electricidad_ingreso' })
@@ -7,7 +7,7 @@ export class ElectricidadIngreso {
     @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => ElectricidadTipo, { eager: true })
+    @ManyToOne(() => ElectricidadTipo, { eager: true })
     @JoinColumn({ name: 'tipo_electricidad_id' })
     tipo_electricidad: ElectricidadTipo;
 
@@ -22,6 +22,9 @@ export class ElectricidadIngreso {
 
     @Column('varchar', { length: 255 })
     area: string;
+
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

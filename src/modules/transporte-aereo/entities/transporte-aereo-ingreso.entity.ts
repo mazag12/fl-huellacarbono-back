@@ -1,12 +1,13 @@
-import { Column, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TransporteAereoTipo } from "./transporte-aereo-tipo.entity";
 
+@Entity({ name: 'tb_huellacarbono_transporte_aereo_ingreso' })
 export class TransporteAereoIngreso {
 
     @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => TransporteAereoTipo, { eager: true })
+    @ManyToOne(() => TransporteAereoTipo, { eager: true })
     @JoinColumn({ name: 'tipo_transporte_aereo_id' })
     tipo_transporte_aereo: TransporteAereoTipo;
 
@@ -36,6 +37,9 @@ export class TransporteAereoIngreso {
 
     @Column('varchar', { length: 255 })
     area: string;
+
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

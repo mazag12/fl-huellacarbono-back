@@ -6,6 +6,7 @@ import { UpsertFugaSf6IngresoDto } from './dto/upsert-fuga-sf6-ingreso.dto';
 import { UpsertFugaSf6TipoDto } from './dto/upsert-fuga-sf6-tipo.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Fuga SF6')
@@ -39,5 +40,10 @@ export class FugaSf6Controller {
   @Delete('tipo/:id')
   deleteFugaSf6Tipo(@Param('id') id: number) {
     return this.fugaSf6Service.deleteFugaSf6Tipo(id);
+  }
+
+  @Get('reporte')
+  getReporteFugaSf6ByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.fugaSf6Service.getReporteFugaSf6ByDate(dt);
   }
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TransporteTerrestreTipo } from "./transporte-terrestre-tipo.entity";
 
 @Entity({ name: 'tb_huellacarbono_transporte_terrestre_ingreso' })
@@ -7,7 +7,7 @@ export class TransporteTerrestreIngreso {
     @PrimaryGeneratedColumn('increment', { type: 'bigint' })
     id: number;
 
-    @OneToOne(() => TransporteTerrestreTipo, { eager: true })
+    @ManyToOne(() => TransporteTerrestreTipo, { eager: true })
     @JoinColumn({ name: 'tipo_transporte_terrestre_id' })
     tipo_transporte_terrestre: TransporteTerrestreTipo;
 
@@ -40,6 +40,9 @@ export class TransporteTerrestreIngreso {
 
     @Column('varchar', { length: 255 })
     area: string;
+
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

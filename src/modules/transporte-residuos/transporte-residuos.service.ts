@@ -34,14 +34,14 @@ export class TransporteResiduosService {
 
   upsertTransporteResiduosIngreso = (dt: UpsertTransporteResiduosIngresoDto, u: AuthUser) =>
     dt.id
-      ? this.transporteResiduosIngresoRepo.update(dt.id, { ...dt, persona_upsert: u.code })
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, { ...dt, persona_upsert: u.code }, 'transporteResiduosIngresoRepo')
       : this.transporteResiduosIngresoRepo.save({ ...dt, persona_upsert: u.code });
 
   getAllTransporteResiduosTipo = () => this.transporteResiduosTipoRepo.find();
 
   upsertTransporteResiduosTipo = (dt: UpsertTransporteResiduosTipoDto) =>
     dt.id
-      ? this.transporteResiduosTipoRepo.update(dt.id, dt)
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, dt, 'transporteResiduosTipoRepo')
       : this.transporteResiduosTipoRepo.save(dt);
 
   deleteTransporteResiduosTipo = (id: number) =>
@@ -51,9 +51,14 @@ export class TransporteResiduosService {
 
   upsertTransporteResiduosSed = (dt: UpsertTransporteResiduosTipoDto) =>
     dt.id
-      ? this.transporteResiduosSedRepo.save(dt)
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, dt, 'transporteResiduosSedRepo')
       : this.transporteResiduosSedRepo.save(dt);
 
   deleteTransporteResiduosSed = (id: number) =>
     this.transporteResiduosSedRepo.update(id, { flag_activo: false });
+
+  methodDeleteIdFromDtoAndUpdate = (id: number, dto, repository) => {
+    delete dto.id;
+    return this[repository].update(id, dto);
+  }
 }

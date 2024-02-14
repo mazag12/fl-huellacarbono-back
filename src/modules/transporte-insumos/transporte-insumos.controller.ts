@@ -6,6 +6,7 @@ import { UpsertTransporteInsumosIngresoDto } from './dto/upsert-transporte-insum
 import { UpsertTransporteInsumosTipoDto } from './dto/upsert-transporte-insumos-tipo.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Transporte Insumos')
@@ -39,5 +40,10 @@ export class TransporteInsumosController {
   @Delete('tipo/:id')
   deleteTransporteInsumosTipo(@Param('id') id: number) {
     return this.transporteInsumosService.deleteTransporteInsumosTipo(id);
+  }
+
+  @Get('reporte')
+  getReporteTransporteInsumosByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.transporteInsumosService.getReporteTransporteInsumosByDate(dt);
   }
 }

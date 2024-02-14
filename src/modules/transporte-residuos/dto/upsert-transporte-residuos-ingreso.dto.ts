@@ -45,4 +45,8 @@ export class UpsertTransporteResiduosIngresoDto {
     @IsNotEmpty()
     @IsNumber()
     crecimiento_anual: number;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

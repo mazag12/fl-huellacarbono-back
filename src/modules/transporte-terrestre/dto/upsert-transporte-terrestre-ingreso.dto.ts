@@ -45,4 +45,8 @@ export class UpsertTransporteTerrestreIngresoDto {
     @IsNotEmpty()
     @IsString()
     area: string;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

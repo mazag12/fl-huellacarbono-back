@@ -30,16 +30,21 @@ export class TransportePropioService {
 
   upsertTransportePropioIngreso = (dt: UpsertTransportePropioIngresoDto, u: AuthUser) =>
     dt.id
-      ? this.transportePropioIngresoRepo.update(dt.id, { ...dt, persona_upsert: u.code })
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, { ...dt, persona_upsert: u.code }, 'transportePropioIngresoRepo')
       : this.transportePropioIngresoRepo.save({ ...dt, persona_upsert: u.code });
 
   getAllTransportePropioTipo = () => this.transportePropioTipoRepo.find();
 
   upsertTransportePropioTipo = (dt: UpsertTransportePropioTipoDto) =>
     dt.id
-      ? this.transportePropioTipoRepo.update(dt.id, dt)
+      ? this.methodDeleteIdFromDtoAndUpdate(dt.id, dt, 'transportePropioTipoRepo')
       : this.transportePropioTipoRepo.save(dt);
 
   deleteTransportePropioTipo = (id: number) =>
     this.transportePropioTipoRepo.update(id, { flag_activo: false });
+
+  methodDeleteIdFromDtoAndUpdate = (id: number, dto, repository) => {
+    delete dto.id;
+    return this[repository].update(id, dto);
+  }
 }

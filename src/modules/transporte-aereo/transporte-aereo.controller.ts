@@ -6,6 +6,7 @@ import { UpsertTransporteAereoTipoDto } from './dto/upsert-transporte-aereo-tipo
 import PaginationDto from 'src/common/dto/pagination.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
+import { GetReporteByTypeAndDateDto } from 'src/common/dto/get-reporte-by-type-and-date.dto';
 
 @ApiBearerAuth()
 @ApiTags('Agua')
@@ -39,5 +40,10 @@ export class TransporteAereoController {
   @Delete('tipo/:id')
   deleteTransporteAereoTipo(@Param('id') id: number) {
     return this.transporteAereoService.deleteTransporteAereoTipo(id);
+  }
+
+  @Get('reporte')
+  getReporteTransporteAereoByDate(@Query() dt: GetReporteByTypeAndDateDto) {
+    return this.transporteAereoService.getReporteTransporteAereoByDate(dt);
   }
 }

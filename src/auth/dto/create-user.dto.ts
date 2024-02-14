@@ -28,8 +28,4 @@ export class CreateUserDto {
     @IsString()
     @IsIn(['ADMIN', 'USER'])
     role: string = 'USER';
-
-    @IsOptional()
-    @IsNumber({}, { each: true })
-    area: number[];
 }

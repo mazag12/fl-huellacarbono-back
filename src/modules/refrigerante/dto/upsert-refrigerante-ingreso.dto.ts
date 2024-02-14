@@ -53,4 +53,8 @@ export class UpsertRefrigeranteIngresoDto {
     @IsNotEmpty()
     @IsNumber()
     fraccion_recuperacion: number;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

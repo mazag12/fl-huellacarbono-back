@@ -12,5 +12,6 @@ import { ConsumoSeinTipo } from './entities/consumo-sein-tipo.entity';
   ],
   controllers: [ConsumoSeinController],
   providers: [ConsumoSeinService],
+  exports: [TypeOrmModule],
 })
 export class ConsumoSeinModule {}

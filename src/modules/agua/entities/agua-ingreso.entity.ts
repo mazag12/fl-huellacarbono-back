@@ -14,6 +14,9 @@ export class AguaIngreso {
 
     @Column('varchar', { length: 250 })
     area: string;
+
+    @Column('varchar', { length: 'MAX', default: '' })
+    evidencia_url: string;
     
     @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string;

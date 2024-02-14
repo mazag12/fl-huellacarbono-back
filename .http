@@ -33,9 +33,9 @@ POST {{V1}}/consumo-sein/ingreso
 Authorization: {{TK}}
 
 {
-    "consumo_sein_tipo_id": 1,
-    "suministro": "Prueba Sumnistro",
-    "cantidad": "13",
+    "tipo_consumo_sein_id": 1,
+    "suministro": "Prueba Sumnistro Dos",
+    "cantidad": 13,
     "fecha_ingreso": "2023-01-01",
     "area": "TJ5 FOOTLOOSE - SAN MARTIN 478 - SAN MARTIN MOYOBAMBA"
 }
@@ -57,5 +57,9 @@ DELETE {{V1}}/consumo-sein/tipo/1
 Authorization: {{TK}}
 
 #############
-GET {{V1}}/consumo-sein/ingreso
+GET {{V1}}/consumo-sein/ingreso?key=fecha_ingreso&operator=startsWith&value=["2023-01"]
+Authorization: {{TK}}
+
+#############
+GET {{V1}}/reportes
 Authorization: {{TK}}

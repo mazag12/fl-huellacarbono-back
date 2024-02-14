@@ -41,4 +41,8 @@ export class UpsertTransporteAereoIngresoDto {
     @IsNotEmpty()
     @IsNumber()
     numero_recorridos: number;
+
+    @IsOptional()
+    @IsString()
+    evidencia_url: string;
 }

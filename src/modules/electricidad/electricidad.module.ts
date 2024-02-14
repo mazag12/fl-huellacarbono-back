@@ -11,5 +11,6 @@ import { ElectricidadTipo } from './entities/electricidad-tipo.entity';
   ],
   controllers: [ElectricidadController],
   providers: [ElectricidadService],
+  exports: [TypeOrmModule],
 })
 export class ElectricidadModule {}
