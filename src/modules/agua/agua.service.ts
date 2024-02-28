@@ -38,7 +38,7 @@ export class AguaService {
   };
 
   getReporteAguaByDate = async ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
-    this.DEV.query(`SELECT ing.area, ing.fecha_ingreso, SUM(medidor) as  cantidad, ing.evidencia_url
+    this.DEV.query(`SELECT ing.area, ing.fecha_ingreso, SUM(cantidad) as  cantidad, ing.evidencia_url
         FROM tb_huellacarbono_agua_ingreso ing
         WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}'
         GROUP BY ing.area, ing.fecha_ingreso, ing.evidencia_url`)

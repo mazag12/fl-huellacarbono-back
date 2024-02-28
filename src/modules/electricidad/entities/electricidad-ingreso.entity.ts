@@ -21,6 +21,9 @@ export class ElectricidadIngreso {
     fecha_ingreso: string;
 
     @Column('varchar', { length: 255 })
+    factura: string;
+
+    @Column('varchar', { length: 255 })
     area: string;
 
     @Column('varchar', { length: 'MAX', default: '' })

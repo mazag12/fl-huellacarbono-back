@@ -20,6 +20,10 @@ export class UpsertElectricidadIngresoDto {
 
     @IsNotEmpty()
     @IsString()
+    factura: string;
+
+    @IsNotEmpty()
+    @IsString()
     area: string;
 
     @IsOptional()

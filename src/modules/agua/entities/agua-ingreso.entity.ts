@@ -8,6 +8,9 @@ export class AguaIngreso {
 
     @Column('numeric', { precision: 18, scale: 6 })
     medidor: number;
+
+    @Column('numeric', { precision: 18, scale: 6 })
+    cantidad: number;
     
     @Column('date')
     fecha_ingreso: string;

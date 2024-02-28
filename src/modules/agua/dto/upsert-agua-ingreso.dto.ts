@@ -11,6 +11,10 @@ export class UpsertAguaIngresoDto {
     medidor: number;
     
     @IsNotEmpty()
+    @IsNumber()
+    cantidad: number;
+
+    @IsNotEmpty()
     @IsDateString()
     fecha_ingreso: string;
 

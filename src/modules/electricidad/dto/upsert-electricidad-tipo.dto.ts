@@ -11,8 +11,8 @@ export class UpsertElectricidadTipoDto {
     nombre: string;
     
     @IsNotEmpty()
-    @IsNumber()
-    unidad: number;
+    @IsString()
+    unidad: string;
 
     @IsNotEmpty()
     @IsNumber()

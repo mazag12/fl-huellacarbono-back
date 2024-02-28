@@ -29,4 +29,13 @@ export class AuthController {
   ) {
     return this.authService.getUserInfo(code);
   }
+
+  @ApiBearerAuth()
+  @Get('user-tienda/:code')
+  getUserTienda(
+    @Param('code') code: string
+  ) {
+    return this.authService.getUserTienda(code);
+  }
+
 }

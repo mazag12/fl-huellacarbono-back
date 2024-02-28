@@ -51,13 +51,21 @@ export class AuthService {
 
   getUserInfo = (code: string) => this.DEV.query(`SELECT p.CODIGO as code
         , p.NOMBRE as nombre
+        , P.PERSONA AS persona
         , p.PATERNO as apepat
         , p.MATERNO as apemat
         , p.NUMERODOCUMENTO AS dni
-        , RTRIM(tcc.cencos_id) as ceco_id
-        , tcc.cencosname AS ceco_nombre
-        , tcc.Serie_pllagtos as ceco_serie
+        , RTRIM(tcc.centrocostoconta) as ceco_id
+        , tcc.nombre AS ceco_nombre
       FROM PERSONA AS P WITH (NOLOCK)
-      INNER JOIN [SRV252].[bapEmpresa01].[dbo].[tb_centrocosto] AS tcc WITH(NOLOCK) ON tcc.cencosid COLLATE Modern_Spanish_CI_AS = p.AREA
+      INNER JOIN CENTROCOSTOCONTA AS tcc WITH(NOLOCK) ON tcc.centrocostoconta COLLATE Modern_Spanish_CI_AS = p.AREA
       WHERE p.FechaBaja = '' AND p.CODIGO = '${code}'`);
+
+      getUserTienda = (code: string) => this.DEV.query(`SELECT a.CENTROCOSTOCONTA
+        ,IIF(c.tienda='00'
+        ,c.nombre,CONCAT('T-',c.n_tienda)) as  tienda
+      FROM tb_rrhh_persona_centrocostoconta AS a  WITH (NOLOCK)
+      INNER JOIN CENTROCOSTOCONTA AS c WITH(NOLOCK) ON c.centrocostoconta COLLATE Modern_Spanish_CI_AS = a.CENTROCOSTOCONTA
+      WHERE a.persona = '${code}' AND a.flg_activo=1` );
+
 }

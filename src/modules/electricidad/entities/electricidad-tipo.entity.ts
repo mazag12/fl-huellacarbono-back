@@ -9,8 +9,8 @@ export class ElectricidadTipo {
     @Column('varchar', { length: 250 })
     nombre: string;
     
-    @Column('numeric', { precision: 18, scale: 6 })
-    unidad: number;
+    @Column('varchar', { length: 250 })
+    unidad: string;
     
     @Column('numeric', { precision: 18, scale: 6 })
     factor: number;
