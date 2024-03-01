@@ -37,8 +37,8 @@ export class RefrigeranteIngreso {
     @Column('date')
     fecha_ingreso: string;
 
-    @Column('varchar', { length: 250 })
-    tipo_operacion: string;
+    @Column('numeric', { precision: 18, scale: 6 })
+    fuga_uso: number;
 
     @Column('numeric', { precision: 18, scale: 6 })
     tiempo_uso: number;

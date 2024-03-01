@@ -29,6 +29,10 @@ export class ElectricidadService {
     });
   }
 
+  async getElectricidadIngreso(id : number) {
+    return this.electricidadIngresoRepo.findOneBy({id});
+  }
+
   upsertElectricidadIngreso = (dt: UpsertElectricidadIngresoDto, u: AuthUser) =>
     dt.id
       ? this.methodDeleteIdFromDtoAndUpdate(dt.id, { ...dt, persona_upsert: u.code }, 'electricidadIngresoRepo')

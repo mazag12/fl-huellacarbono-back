@@ -39,8 +39,8 @@ export class UpsertRefrigeranteIngresoDto {
     area: string;
     
     @IsNotEmpty()
-    @IsString()
-    tipo_operacion: string;
+    @IsNumber()
+    fuga_uso: number;
     
     @IsNotEmpty()
     @IsNumber()

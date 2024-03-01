@@ -27,6 +27,11 @@ export class ElectricidadController {
     return this.electricidadService.getAllElectricidadIngreso(pg);
   }
 
+  @Get('ingreso/:id')
+  getElectricidadIngreso(@Param('id') id: number) {
+    return this.electricidadService.getElectricidadIngreso(id);
+  }
+
   @Get('tipo')
   getAllElectricidadTipo() {
     return this.electricidadService.getAllElectricidadTipo();

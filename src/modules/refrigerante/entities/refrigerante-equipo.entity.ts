@@ -9,7 +9,7 @@ export class RefrigeranteEquipo {
     @Column('varchar', { length: 150, nullable: false })
     nombre: string;
 
-    @Column('bit')
+    @Column('bit', { default: 1 })
     flag_activo: boolean;
 
 }
