@@ -7,6 +7,7 @@ import { UpsertElectricidadIngresoDto } from './dto/upsert-electricidad-ingreso.
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { User } from 'src/auth/decorators/get-user.decorator';
 import { GetReporteByTypeAndDateDto } from '../../common/dto/get-reporte-by-type-and-date.dto';
+import { GetIdByTypeFacturaTipo } from 'src/common/dto/get-id-by-factura-and-tipo.dto';
 
 @ApiBearerAuth()
 @ApiTags('Electricidad')
@@ -30,6 +31,11 @@ export class ElectricidadController {
   @Get('ingreso/:id')
   getElectricidadIngreso(@Param('id') id: number) {
     return this.electricidadService.getElectricidadIngreso(id);
+  }
+
+  @Get('factura')
+  getElectricidadIngresoByFactura(@Query() pg: GetIdByTypeFacturaTipo) {
+    return this.electricidadService.getElectricidadByFactura(pg);
   }
 
   @Get('tipo')

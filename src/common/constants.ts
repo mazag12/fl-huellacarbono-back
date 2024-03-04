@@ -21,7 +21,7 @@ export enum TipoDate {
 export enum ColumnasParaIngresos {
     tb_huellacarbono_agua_ingreso = 'medidor, fecha_ingreso, area, evidencia_url',
     tb_huellacarbono_consumo_sein_ingreso = 'tb_huellacarbono_consumo_sein_tipo.nombre as tipo_consumo_sein_nombre, suministro, SUM(cantidad), fecha_ingreso, area, evidencia_url',
-    tb_huellacarbono_electricidad_ingreso = 'tb_huellacarbono_electricidad_tipo.nombre as tipo_electricidad_nombre, SUM(cantidad), fecha_ingreso, area, evidencia_url',
+    tb_huellacarbono_electricidad_ingreso = 'tb_huellacarbono_electricidad_tipo.nombre as tipo_electricidad_nombre, SUM(cantidad), fecha_ingreso, area, evidencia_url, factura',
     tb_huellacarbono_fuga_sf6_ingreso = 'tb_huellacarbono_fuga_sf6_tipo.nombre as tipo_fuga_sf6_nombre, SUM(cantidad), fecha_ingreso, area, evidencia_url',
     tb_huellacarbono_papel_ingreso = 'tb_huellacarbono_papel_tipo.nombre as tipo_papel_nombre, SUM(cantidad), fecha_ingreso, reciclado, nombre_certificado, densidad, area, evidencia_url',
     tb_huellacarbono_refrigerante_ingreso = 'tb_huellacarbono_refrigerante_tipo.nombre as tipo_refrigerante_nombre, tb_huellacarbono_refrigerante_equipo.nombre as equipo_refrigerante_nombre, SUM(cantidad), fecha_ingreso, area, evidencia_url',
@@ -36,7 +36,7 @@ export enum ColumnasParaIngresos {
 export enum AgrupamientoParaIngresos {
     tb_huellacarbono_agua_ingreso = 'medidor, fecha_ingreso, area, evidencia_url',
     tb_huellacarbono_consumo_sein_ingreso = 'tb_huellacarbono_consumo_sein_tipo.nombre, suministro, fecha_ingreso, area, evidencia_url',
-    tb_huellacarbono_electricidad_ingreso = 'tb_huellacarbono_electricidad_tipo.nombre, fecha_ingreso, area, evidencia_url',
+    tb_huellacarbono_electricidad_ingreso = 'tb_huellacarbono_electricidad_tipo.nombre, fecha_ingreso, area, evidencia_url, factura',
     tb_huellacarbono_fuga_sf6_ingreso = 'tb_huellacarbono_fuga_sf6_tipo.nombre, fecha_ingreso, area, evidencia_url',
     tb_huellacarbono_papel_ingreso = 'tb_huellacarbono_papel_tipo.nombre, fecha_ingreso, area, evidencia_url',
     tb_huellacarbono_refrigerante_ingreso = 'tb_huellacarbono_refrigerante_tipo.nombre, tb_huellacarbono_refrigerante_equipo.nombre, fecha_ingreso, area, evidencia_url',

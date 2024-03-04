@@ -9,6 +9,7 @@ import { createFilter } from 'src/common/utils/filter';
 import { UpsertElectricidadIngresoDto } from './dto/upsert-electricidad-ingreso.dto';
 import { AuthUser } from 'src/auth/interfaces/auth-user.interface';
 import { GetReporteByTypeAndDateDto } from '../../common/dto/get-reporte-by-type-and-date.dto';
+import { GetIdByTypeFacturaTipo } from 'src/common/dto/get-id-by-factura-and-tipo.dto';
 
 @Injectable()
 export class ElectricidadService {
@@ -26,12 +27,17 @@ export class ElectricidadService {
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: {
+        id: 'DESC',
+      },
     });
   }
 
-  async getElectricidadIngreso(id : number) {
-    return this.electricidadIngresoRepo.findOneBy({id});
-  }
+  getElectricidadIngreso = (id : number) => this.electricidadIngresoRepo.findOneBy({id});
+
+  getElectricidadByFactura = ({ factura, tipo_electricidad_id }: GetIdByTypeFacturaTipo) => 
+  this.electricidadIngresoRepo.query(`SELECT id FROM tb_huellacarbono_electricidad_ingreso
+    WHERE factura like'%${factura}%' AND tipo_electricidad_id = ${tipo_electricidad_id};`);
 
   upsertElectricidadIngreso = (dt: UpsertElectricidadIngresoDto, u: AuthUser) =>
     dt.id
@@ -54,10 +60,9 @@ export class ElectricidadService {
   }
 
   getReporteElectricidadByDate = ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
-    this.electricidadIngresoRepo.query(`SELECT ing.area, ing.fecha_ingreso, SUM(cantidad) as  cantidad, ing.evidencia_url
-            , tip.nombre as tipo_electricidad_nombre, tip.unidad, tip.factor, tip.valor_neto, tip.co2, tip.n2o
+    this.electricidadIngresoRepo.query(`SELECT tip.id, tip.nombre, tip.unidad, ing.area, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, SUM(ing.cantidad) as  cantidad
           FROM tb_huellacarbono_electricidad_ingreso ing
           INNER JOIN tb_huellacarbono_electricidad_tipo tip ON ing.tipo_electricidad_id = tip.id
           WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}'
-          GROUP BY ing.area, ing.fecha_ingreso, ing.evidencia_url, tip.nombre, tip.unidad, tip.factor, tip.valor_neto, tip.co2, tip.n2o`);
+          GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id, ing.area`);
 }

@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsNumber, IsOptional, IsPositive, Min } from 'class-validator';
+import { IsNumber, IsOptional, IsPositive, IsString, Min } from 'class-validator';
 
 export default class PaginationDto {
 
@@ -41,5 +41,4 @@ export default class PaginationDto {
     @IsOptional()
     // @Transform(({ value }) => JSON.parse(value ?? '{}'))
     value?: string;
-
 }
