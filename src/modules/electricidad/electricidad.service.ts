@@ -60,9 +60,9 @@ export class ElectricidadService {
   }
 
   getReporteElectricidadByDate = ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
-    this.electricidadIngresoRepo.query(`SELECT tip.id, tip.nombre, tip.unidad, ing.area, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, SUM(ing.cantidad) as  cantidad
+    this.electricidadIngresoRepo.query(`SELECT tip.id, tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, SUM(ing.cantidad) as  cantidad
           FROM tb_huellacarbono_electricidad_ingreso ing
           INNER JOIN tb_huellacarbono_electricidad_tipo tip ON ing.tipo_electricidad_id = tip.id
-          WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}'
-          GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id, ing.area`);
+          WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}' AND tip.flag_activo = 'true'
+          GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id`);
 }

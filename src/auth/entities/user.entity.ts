@@ -23,6 +23,9 @@ export class User {
   @Column({ type: 'bit', default: 1 })
   isActive: boolean;
 
+  @Column({ type: 'varchar', default: "" })
+  permissions: string;
+
   @Column('varchar', { default: 'USER' })
   role: string; // 'ADMIN' | 'USER';
 

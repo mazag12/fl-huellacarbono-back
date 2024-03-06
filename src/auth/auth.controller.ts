@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, CreateUserDto } from './dto';
+import { LoginDto, CreateUserDto, UpdateUserDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from './guards/no-jwt.guard';
 
@@ -23,6 +23,24 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @Get('user-all')
+  getUserAll() {
+    return this.authService.getAllUsuarioIngreso();
+  }
+
+  @ApiBearerAuth()
+  @Post('user')
+  getUserUpdate(@Body() dt: UpdateUserDto,) {
+    return this.authService.upsertElectricidadIngreso(dt);
+  }
+
+  @ApiBearerAuth()
+  @Get('user/:id')
+  getUserAllById(@Param('id') id: number) {
+    return this.authService.getAllUsuarioIngresoById(id);
+  }
+
+  @ApiBearerAuth()
   @Get('user-info/:code')
   getUserInfo(
     @Param('code') code: string
@@ -37,5 +55,5 @@ export class AuthController {
   ) {
     return this.authService.getUserTienda(code);
   }
-
+  
 }

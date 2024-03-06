@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
-import { LoginDto, CreateUserDto } from './dto';
+import { LoginDto, CreateUserDto, UpdateUserDto } from './dto';
 import { AuthUser } from './interfaces/auth-user.interface';
 import { DataSource, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
@@ -61,11 +61,27 @@ export class AuthService {
       INNER JOIN CENTROCOSTOCONTA AS tcc WITH(NOLOCK) ON tcc.centrocostoconta COLLATE Modern_Spanish_CI_AS = p.AREA
       WHERE p.FechaBaja = '' AND p.CODIGO = '${code}'`);
 
-      getUserTienda = (code: string) => this.DEV.query(`SELECT a.CENTROCOSTOCONTA
+  getUserTienda = (code: string) => this.DEV.query(`SELECT a.CENTROCOSTOCONTA
         ,IIF(c.tienda='00'
         ,c.nombre,CONCAT('T-',c.n_tienda)) as  tienda
       FROM tb_rrhh_persona_centrocostoconta AS a  WITH (NOLOCK)
       INNER JOIN CENTROCOSTOCONTA AS c WITH(NOLOCK) ON c.centrocostoconta COLLATE Modern_Spanish_CI_AS = a.CENTROCOSTOCONTA
       WHERE a.persona = '${code}' AND a.flg_activo=1` );
+
+  async getAllUsuarioIngreso() {
+    return await this.userRepository.find({
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
+  getAllUsuarioIngresoById= (id : number) => this.userRepository.findOneBy({id});
+
+  upsertElectricidadIngreso  (dt: UpdateUserDto) {
+    const id = dt.id;
+    delete dt.id;
+    return this.userRepository.update(id, dt);
+  }
 
 }
