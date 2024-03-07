@@ -36,8 +36,8 @@ export class ElectricidadService {
   getElectricidadIngreso = (id : number) => this.electricidadIngresoRepo.findOneBy({id});
 
   getElectricidadByFactura = ({ factura, tipo_electricidad_id }: GetIdByTypeFacturaTipo) => 
-  this.electricidadIngresoRepo.query(`SELECT id FROM tb_huellacarbono_electricidad_ingreso
-    WHERE factura like'%${factura}%' AND tipo_electricidad_id = ${tipo_electricidad_id};`);
+  this.electricidadIngresoRepo.query(`SELECT count(id) FROM tb_huellacarbono_electricidad_ingreso
+    WHERE factura = '${factura}' AND tipo_electricidad_id = ${tipo_electricidad_id}`);
 
   upsertElectricidadIngreso = (dt: UpsertElectricidadIngresoDto, u: AuthUser) =>
     dt.id
