@@ -15,6 +15,7 @@ import { TransporteInsumosModule } from './modules/transporte-insumos/transporte
 import { TransporteResiduosModule } from './modules/transporte-residuos/transporte-residuos.module';
 import { TransportePropioModule } from './modules/transporte-propio/transporte-propio.module';
 import { ReportesModule } from './modules/reportes/reportes.module';
+import { ModuloModule } from './modules/modulo/modulo.module';
 
 const defaultOptions = () => ({
   port: +process.env.DB_PORT,
@@ -24,9 +25,8 @@ const defaultOptions = () => ({
     trustServerCertificate: true,
   },
   // benchmark: true,
-  logging: true,
+  logging: process.env.IS_DEV ? true : false,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  
 });
 
 @Global()
@@ -49,8 +49,8 @@ const defaultOptions = () => ({
         database: process.env.DB_NAME,
         host: process.env.DB_HOST_DEV,
         type: 'mssql',
-        //autoLoadEntities: true,
-        //synchronize: false,
+        // autoLoadEntities: true,
+        // synchronize: true,
         ...defaultOptions()
       })
     }),
@@ -68,6 +68,7 @@ const defaultOptions = () => ({
     TransporteInsumosModule,
     TransporteResiduosModule,
     TransportePropioModule,
+    ModuloModule,
   ],
 })
 export class AppModule {}
