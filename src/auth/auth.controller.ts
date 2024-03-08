@@ -23,18 +23,6 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
-  @Get('user-all')
-  getUserAll() {
-    return this.authService.getAllUsuarioIngreso();
-  }
-
-  @ApiBearerAuth()
-  @Post('user')
-  getUserUpdate(@Body() dt: UpdateUserDto,) {
-    return this.authService.upsertElectricidadIngreso(dt);
-  }
-
-  @ApiBearerAuth()
   @Get('user/:id')
   getUserAllById(@Param('id') id: number) {
     return this.authService.getAllUsuarioIngresoById(id);

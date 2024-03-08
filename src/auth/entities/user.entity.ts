@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Accesos } from './accesos.entity';
 
-@Entity('tb_huellacarbono_user')
+@Entity({ name: 'tb_huellacarbono_user' })
 export class User {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
@@ -23,8 +24,8 @@ export class User {
   @Column({ type: 'bit', default: 1 })
   isActive: boolean;
 
-  @Column({ type: 'varchar', default: "" })
-  permissions: string;
+  @OneToMany(() => Accesos, (accesos) => accesos.user, { eager: true })
+  accesos: Accesos;
 
   @Column('varchar', { default: 'USER' })
   role: string; // 'ADMIN' | 'USER';
