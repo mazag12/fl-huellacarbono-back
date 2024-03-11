@@ -26,7 +26,7 @@ export class AuthController {
   @Public()
   @Post('password-recovery')
   postRecuperarContrasena(){
-    this.authService.postRecuperarContrasena();
+    return this.authService.postRecuperarContrasena();
   }
 
   // @Public()

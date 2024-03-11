@@ -16,6 +16,7 @@ import { TransporteResiduosModule } from './modules/transporte-residuos/transpor
 import { TransportePropioModule } from './modules/transporte-propio/transporte-propio.module';
 import { ReportesModule } from './modules/reportes/reportes.module';
 import { ModuloModule } from './modules/modulo/modulo.module';
+import { MailModule } from './modules/mail/mail.module';
 
 const defaultOptions = () => ({
   port: +process.env.DB_PORT,
@@ -69,6 +70,7 @@ const defaultOptions = () => ({
     TransporteResiduosModule,
     TransportePropioModule,
     ModuloModule,
+    MailModule
   ],
 })
 export class AppModule {}

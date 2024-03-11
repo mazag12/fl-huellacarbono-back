@@ -22,10 +22,8 @@ export class AuthService {
     @InjectDataSource('DEV')
     private readonly DEV: DataSource,
     
-    @InjectDataSource('DEV')
     private readonly mailService: MailService,
-
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async register(dto: CreateUsuarioDto) {
@@ -82,6 +80,7 @@ export class AuthService {
 
   async postRecuperarContrasena(){
     await this.mailService.sendEmailExample();
+    return { message: "Correo enviado" };
   }
 
 }

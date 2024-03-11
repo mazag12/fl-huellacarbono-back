@@ -9,10 +9,8 @@ export class MailService {
 
     async sendEmailExample() {
         return await this.mailerService.sendMail({
-            to: 'to@example.com',
-            //* Copia de carbon bcc: '',
-            //* Copia cc: '',
-            subject: 'PRUEBA    ',
+            to: 'marco.aycachi@footloose.pe, ray.pacuri@footloose.pe',
+            subject: 'PRUEBA',
             text: 'Texto de Prueba',
         })
     }
