@@ -29,10 +29,6 @@ export class UpdateUserDto{
 
     @IsOptional()
     @IsString()
-    permissions: string;
-
-    @IsOptional()
-    @IsString()
     @IsIn(['ADMIN', 'USER', 'SUPERVISOR'])
     role: string = 'USER';
 

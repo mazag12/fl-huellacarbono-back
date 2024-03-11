@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, CreateUserDto, UpdateUserDto } from './dto';
+import { LoginDto, CreateUsuarioDto, UpdateUserDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from './guards/no-jwt.guard';
 
@@ -15,33 +15,31 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  // @Public()
-  @ApiBearerAuth()
-  @Post('signup')
-  register(@Body() createUserDto: CreateUserDto) {
-    return this.authService.register(createUserDto);
-  }
-
-  @ApiBearerAuth()
-  @Get('user/:id')
-  getUserAllById(@Param('id') id: number) {
-    return this.authService.getAllUsuarioIngresoById(id);
-  }
-
-  @ApiBearerAuth()
-  @Get('user-info/:code')
+  @Public()
+  @Get(':code')
   getUserInfo(
     @Param('code') code: string
   ) {
-    return this.authService.getUserInfo(code);
+    return this.authService.getinfo(code);
+  }
+  
+  @Public()
+  @Get('send')
+  sendEmail(){
+    this.authService.recuperarSendEmail();
+  }
+  
+  @Public()
+  @Post('recuperar')
+  recuperar(@Body() loginDto: LoginDto) {
+    return this.authService.recuperar(loginDto);
   }
 
+  // @Public()
   @ApiBearerAuth()
-  @Get('user-tienda/:code')
-  getUserTienda(
-    @Param('code') code: string
-  ) {
-    return this.authService.getUserTienda(code);
+  @Post('signup')
+  register(@Body() createUserDto: CreateUsuarioDto) {
+    return this.authService.register(createUserDto);
   }
   
 }

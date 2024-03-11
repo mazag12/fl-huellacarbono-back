@@ -49,8 +49,8 @@ const defaultOptions = () => ({
         database: process.env.DB_NAME,
         host: process.env.DB_HOST_DEV,
         type: 'mssql',
-        // autoLoadEntities: true,
-        // synchronize: true,
+        //autoLoadEntities: true,
+        //synchronize: true,
         ...defaultOptions()
       })
     }),

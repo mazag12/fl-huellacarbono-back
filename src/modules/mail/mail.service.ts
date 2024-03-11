@@ -9,11 +9,11 @@ export class MailService {
 
     async sendEmailExample() {
         return await this.mailerService.sendMail({
-            to: 'email@footloose.pe',
+            to: 'to@example.com',
             //* Copia de carbon bcc: '',
             //* Copia cc: '',
-            subject: 'Subject del correo',
-            text: 'Texto del correo',
+            subject: 'PRUEBA    ',
+            text: 'Texto de Prueba',
         })
     }
 }

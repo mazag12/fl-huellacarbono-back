@@ -17,6 +17,11 @@ export class UserController {
     return this.userService.getAllUsuarios(pg);
   }
 
+  @Get('user/:id')
+  getUserAllById(@Param('id') id: number) {
+    return this.userService.getAllUsuarioIngresoById(id);
+  }
+
   @Post('acceso')
   postAcceso(@Body() dt: PostAccesoDto, @User() u: AuthUser) {
     return this.userService.postAcceso(dt, u);
