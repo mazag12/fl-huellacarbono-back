@@ -80,13 +80,8 @@ export class AuthService {
   }
 
 
-  recuperarSendEmail(){
-    try {
-      this.mailService.sendEmailExample();
-      return {message: "email sedede and user created"};
-    } catch (error) {
-      console.log(error);
-    }
+  async postRecuperarContrasena(){
+    await this.mailService.sendEmailExample();
   }
 
 }

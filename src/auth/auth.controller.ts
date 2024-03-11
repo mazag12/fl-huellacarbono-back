@@ -24,15 +24,9 @@ export class AuthController {
   }
   
   @Public()
-  @Get('send')
-  sendEmail(){
-    this.authService.recuperarSendEmail();
-  }
-  
-  @Public()
-  @Post('recuperar')
-  recuperar(@Body() loginDto: LoginDto) {
-    return this.authService.recuperar(loginDto);
+  @Post('password-recovery')
+  postRecuperarContrasena(){
+    this.authService.postRecuperarContrasena();
   }
 
   // @Public()

@@ -7,19 +7,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRootAsync({
       useFactory: async () => ({
-        transport: {
-          host: 'sandbox.smtp.mailtrap.io',
-          port: 468,
-          secure: false,
-          auth:{
-            user: "6d09459e0b6099",
-            pass: "29319a4dba82e7",
-          },
-        },
-        defaults: { from: '"Notificaciones Footloose" <from@example.com>', }
+        transport: process.env.MAIL_URI,
+        defaults: { from: '"Notificaciones Footloose" <notificaciones@footloose.pe>', }
       })
     }),
   ],
   providers: [MailService],
+  exports: [MailService]
 })
 export class MailModule {}
