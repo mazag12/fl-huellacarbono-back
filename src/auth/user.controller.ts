@@ -17,7 +17,7 @@ export class UserController {
     return this.userService.getAllUsuarios(pg);
   }
 
-  @Get('user/:id')
+  @Get(':id')
   getUserAllById(@Param('id') id: number) {
     return this.userService.getAllUsuarioIngresoById(id);
   }
