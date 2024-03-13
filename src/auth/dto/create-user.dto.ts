@@ -14,10 +14,10 @@ export class CreateUsuarioDto {
     @IsString()
     nombre: string;
 
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     @IsStrongPassword({ minLength: 6, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 })
-    password: string;
+    password?: string;
 
     @IsNotEmpty()
     @IsString()

@@ -29,8 +29,8 @@ export class AuthController {
     return this.authService.postRecuperarContrasena();
   }
 
-  // @Public()
-  @ApiBearerAuth()
+  @Public()
+  //@ApiBearerAuth()
   @Post('signup')
   register(@Body() createUserDto: CreateUsuarioDto) {
     return this.authService.register(createUserDto);
