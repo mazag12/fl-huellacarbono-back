@@ -12,6 +12,7 @@ import { AuthUser } from './interfaces/auth-user.interface';
 import { DataSource, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { MailService } from '../modules/mail/mail.service';
+import { sendEmail } from './interfaces/sendEmail';
 
 @Injectable()
 export class AuthService {
@@ -25,22 +26,6 @@ export class AuthService {
     private readonly mailService: MailService,
     private readonly jwtService: JwtService,
   ) {}
-
-  async register(dto: CreateUsuarioDto) {
-    const userData  = dto;
-
-    let user;
-    if(userData.id){
-      const userId = userData.id
-      delete userData.id;
-      user = await this.userRepository.update(userId, userData);
-    }else{
-      user = await this.userRepository.save({ ...userData, password: bcrypt.hashSync(userData.password, 10)});
-    }
-    return user;
-    
-    
-  }
 
   async login(loginDto: LoginDto) {
     const { code, password } = loginDto;
@@ -57,22 +42,6 @@ export class AuthService {
     return await this.getJwtToken(user);
   }
 
-  async recuperar(loginDto: LoginDto) {
-    const { code, password } = loginDto;
-
-    this.userRepository.update({ code: code }, { password: bcrypt.hashSync(password, 10) });
-
-    const user = await this.userRepository.findOne({
-      where: { code },
-      select: ['id', 'code', 'email', 'nombre', 'apellido', 'password', 'isActive', 'role'],
-    });
-    if (!user) throw new UnauthorizedException('Credenciales invalidas, codigo inexistente');
-    if (!user.isActive) throw new UnauthorizedException('El usuario no esta activo');
-    if (!bcrypt.compareSync(password, user.password))
-      throw new UnauthorizedException('Contraseña incorrecta');
-    return await this.getJwtToken(user);
-  }
-
   getJwtToken = ({ id, email, nombre, apellido, code, role }) => 
     this.jwtService.signAsync({ sub: +id, email, nombre, apellido, code, role })
 
@@ -86,10 +55,23 @@ export class AuthService {
     return user;
   }
 
-
-  async postRecuperarContrasena(){
-    await this.mailService.sendEmailExample();
+  async postRecuperarContrasena(user: sendEmail){
+    await this.mailService.sendEmailExample(user);
     return { message: "Correo enviado" };
+  }
+
+  async register(dto: CreateUsuarioDto) {
+    const userData  = dto;
+
+    let user;
+    if(userData.id){
+      const userId = userData.id
+      delete userData.id;
+      user = await this.userRepository.update(userId, userData);
+    }else{
+      user = await this.userRepository.save({ ...userData, password: bcrypt.hashSync(userData.password, 10)});
+    }
+    return user;
   }
 
 }

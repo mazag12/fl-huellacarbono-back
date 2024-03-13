@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto, CreateUsuarioDto, UpdateUserDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from './guards/no-jwt.guard';
+import { SendMail } from './dto/sendmail.dto';
 
 @ApiTags('Autenticacion')
 @Controller('auth')
@@ -25,9 +26,10 @@ export class AuthController {
   
   @Public()
   @Post('password-recovery')
-  postRecuperarContrasena(){
-    return this.authService.postRecuperarContrasena();
+  postRecuperarContrasena(@Body() mail: SendMail ){
+    return this.authService.postRecuperarContrasena(mail);
   }
+
 
   @Public()
   //@ApiBearerAuth()
