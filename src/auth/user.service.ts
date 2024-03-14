@@ -25,9 +25,27 @@ export class UserService {
   ) {}
 
   async getAllUsuarios(pg: PaginationDto) {
-    const where = createFilter(pg);
+    let where;
+    let count;
 
-    const count = await this.userRepository.count({ where });
+    if (pg.filter && pg.filter !== '') {
+      let filterValue = pg.filter;
+      where = await this.DEV.query(`
+      SELECT email, isActive, id, code, nombre, apellido, role
+      FROM tb_huellacarbono_user WHERE (
+        id LIKE '%${filterValue}%'
+        OR code LIKE '%${filterValue}%'
+        OR email LIKE '%${filterValue}%'
+        OR nombre LIKE '%${filterValue}%'
+        OR apellido LIKE '%${filterValue}%'
+      )`);
+      
+      count = where.length
+    } else {
+       where = createFilter(pg);   
+        count = await this.userRepository.count({ where });    
+    }
+
     const rows = await this.userRepository.find({
       where,
       take: pg.limit,
@@ -35,7 +53,7 @@ export class UserService {
       order: { id: 'DESC' },
     });
 
-    return { count, rows };
+    return { count, rows };  
   }
 
   getAllUsuarioIngresoById = (id : number) => this.userRepository.findOneBy({id});
@@ -60,6 +78,8 @@ export class UserService {
   methodDeleteIdFromDtoAndUpdate = async (user_id: number, modulo_id: number, use: string)  => 
   this.DEV.query(`Update tb_huellacarbono_acceso Set updatedAt = GETDATE(), deletedAt = NULL, persona_upd = '${use}'
   WHERE user_id = '${user_id}' and modulo_id = '${modulo_id}';`);
+
+  
 
 
 } 
