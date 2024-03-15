@@ -25,6 +25,7 @@ export function createFilter(pg: PaginationDto) {
 
   return (key as any)?.reduce((acc, v, i) => {
     acc[v] = conditionalOperator(operator[i], value[i]);
+    console.log(acc);
     return acc;
   }, {});
 }
