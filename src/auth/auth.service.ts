@@ -62,12 +62,9 @@ export class AuthService {
 
   async register(dto: CreateUsuarioDto) {
     const userData  = dto;
-
     let user;
     if(userData.id){
-      const userId = userData.id
-      delete userData.id;
-      user = await this.userRepository.update(userId, userData);
+      user = await this.userRepository.update(userData.id, {password: bcrypt.hashSync(userData.password, 10)});
     }else{
       user = await this.userRepository.save({ ...userData, password: bcrypt.hashSync(userData.password, 10)});
     }
