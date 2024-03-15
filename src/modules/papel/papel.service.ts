@@ -24,12 +24,24 @@ export class PapelService {
   ) {}
 
   async getAllPapelIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.papelIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.papelIngresoRepo.count({ where });
+    const rows = await this.papelIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertPapelIngreso = (dt: UpsertPapelIngresoDto, u: AuthUser) =>

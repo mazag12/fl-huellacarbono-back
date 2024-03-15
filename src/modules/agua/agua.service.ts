@@ -19,12 +19,24 @@ export class AguaService {
   ) {}
 
   async getAllAguaIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return await this.aguaIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.aguaIngresoRepo.count({ where });
+    const rows = await this.aguaIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertAguaIngreso = (dt: UpsertAguaIngresoDto, u: AuthUser) =>
@@ -38,8 +50,8 @@ export class AguaService {
   };
 
   getReporteAguaByDate = async ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
-    this.DEV.query(`SELECT ing.area, ing.fecha_ingreso, SUM(cantidad) as  cantidad, ing.evidencia_url
+    this.DEV.query(`SELECT medidor, SUM(cantidad) as  cantidad
         FROM tb_huellacarbono_agua_ingreso ing
         WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}'
-        GROUP BY ing.area, ing.fecha_ingreso, ing.evidencia_url`)
+        GROUP BY ing.medidor`)
 }

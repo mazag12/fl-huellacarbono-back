@@ -25,12 +25,24 @@ export class TransporteInsumosService {
   ) {}
 
   async getAllTransporteInsumosIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.transporteInsumosIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.transporteInsumosIngresoRepo.count({ where });
+    const rows = await this.transporteInsumosIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertTransporteInsumosIngreso = (dt: UpsertTransporteInsumosIngresoDto, u: AuthUser) =>

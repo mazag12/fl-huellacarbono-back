@@ -20,12 +20,24 @@ export class TransportePropioService {
   ) {}
 
   async getAllTransportePropioIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.transportePropioIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.transportePropioIngresoRepo.count({ where });
+    const rows = await this.transportePropioIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertTransportePropioIngreso = (dt: UpsertTransportePropioIngresoDto, u: AuthUser) =>

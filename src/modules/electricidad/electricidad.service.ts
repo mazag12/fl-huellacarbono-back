@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ElectricidadTipo } from './entities/electricidad-tipo.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { UpsertElectricidadTipoDto } from './dto/upsert-electricidad-tipo.dto';
 import { ElectricidadIngreso } from './entities/electricidad-ingreso.entity';
 import PaginationDto from 'src/common/dto/pagination.dto';
@@ -19,18 +19,31 @@ export class ElectricidadService {
 
     @InjectRepository(ElectricidadIngreso, 'DEV')
     private readonly electricidadIngresoRepo: Repository<ElectricidadIngreso>,
+    
+    @InjectDataSource('DEV')
+    private readonly DEV: DataSource,
   ) {}
+  
 
   async getAllElectricidadIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.electricidadIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.electricidadIngresoRepo.count({ where });
+    const rows = await this.electricidadIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
-      order: {
-        id: 'DESC',
-      },
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   getElectricidadIngreso = (id : number) => this.electricidadIngresoRepo.findOneBy({id});
@@ -65,4 +78,6 @@ export class ElectricidadService {
           INNER JOIN tb_huellacarbono_electricidad_tipo tip ON ing.tipo_electricidad_id = tip.id
           WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}' AND tip.flag_activo = 'true'
           GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id`);
+  
+
 }

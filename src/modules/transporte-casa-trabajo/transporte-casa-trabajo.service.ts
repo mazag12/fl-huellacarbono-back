@@ -24,12 +24,24 @@ export class TransporteCasaTrabajoService {
   ) {}
 
   async getAllTransporteCasaTrabajoIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.transporteCasaTrabajoIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.transporteCasaTrabajoIngresoRepo.count({ where });
+    const rows = await this.transporteCasaTrabajoIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertTransporteCasaTrabajoIngreso = (

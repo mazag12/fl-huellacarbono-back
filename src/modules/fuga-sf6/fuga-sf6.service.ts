@@ -24,12 +24,24 @@ export class FugaSf6Service {
   ) {}
 
   async getAllFugaSf6Ingreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.fugaSf6IngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.fugaSf6IngresoRepo.count({ where });
+    const rows = await this.fugaSf6IngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertFugaSf6Ingreso = (dt: UpsertFugaSf6IngresoDto, u: AuthUser) =>

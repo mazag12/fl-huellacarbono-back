@@ -25,12 +25,24 @@ export class ConsumoSeinService {
   ) {}
 
   async getAllConsumoSeinIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.consumoSeinIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.consumoSeinIngresoRepo.count({ where });
+    const rows = await this.consumoSeinIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertConsumoSeinIngreso = (dt: UpsertConsumoSeinIngresoDto, u: AuthUser) =>

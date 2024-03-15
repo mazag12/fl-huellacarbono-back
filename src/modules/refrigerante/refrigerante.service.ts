@@ -29,12 +29,24 @@ export class RefrigeranteService {
   ) {}
 
   async getAllRefrigeranteIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.refrigeranteIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.refrigeranteIngresoRepo.count({ where });
+    const rows = await this.refrigeranteIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertRefrigeranteIngreso = (dt: UpsertRefrigeranteIngresoDto, u: AuthUser) =>

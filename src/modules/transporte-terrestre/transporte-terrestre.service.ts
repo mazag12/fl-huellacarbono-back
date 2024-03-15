@@ -20,12 +20,24 @@ export class TransporteTerrestreService {
   ) {}
 
   async getAllTransporteTerrestreIngreso(pg: PaginationDto) {
-    const where = createFilter(pg);
-    return this.transporteTerrestreIngresoRepo.find({
+    const where = {};
+    if (pg.factura){
+      where['factura'] = pg.factura;
+    }
+    if (pg.tipo){
+      where['tipo_electricidad_id'] = pg.tipo;
+    }
+    if (pg.fecha){
+      where['fecha_ingreso'] = pg.fecha;
+    }
+    const count = await this.transporteTerrestreIngresoRepo.count({ where });
+    const rows = await this.transporteTerrestreIngresoRepo.find({
       where,
       take: pg.limit,
       skip: pg.offset,
+      order: { id: 'DESC' },
     });
+    return { count, rows };
   }
 
   upsertTransporteTerrestreIngreso = (dt: UpsertTransporteTerrestreIngresoDto, u: AuthUser) =>
