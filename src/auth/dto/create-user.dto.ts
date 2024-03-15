@@ -29,10 +29,10 @@ export class CreateUsuarioDto {
 
     @IsNotEmpty()
     @IsBoolean()
-    isActive: boolean = true;
+    isActive?: boolean = true;
 
     @IsOptional()
     @IsString()
     @IsIn(['ADMIN', 'USER', 'SUPERVISOR'])
-    role: string = 'USER';
+    role?: string = 'USER';
 }

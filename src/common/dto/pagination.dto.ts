@@ -41,4 +41,17 @@ export default class PaginationDto {
     @IsOptional()
     // @Transform(({ value }) => JSON.parse(value ?? '{}'))
     value?: string;
+
+    @IsOptional()
+    factura?: string = '';
+
+    @IsOptional()
+    tipo?: number = 0;
+
+    @IsOptional()
+    fecha?: string = '';
+
+    @IsOptional()
+    unidad?: string = '';
+
 }
