@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ElectricidadTipo } from './entities/electricidad-tipo.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { UpsertElectricidadTipoDto } from './dto/upsert-electricidad-tipo.dto';
 import { ElectricidadIngreso } from './entities/electricidad-ingreso.entity';
@@ -28,13 +28,16 @@ export class ElectricidadService {
   async getAllElectricidadIngreso(pg: PaginationDto) {
     const where = {};
     if (pg.factura){
-      where['factura'] = pg.factura;
+      where['factura'] = Like(`%${pg.factura}%`);
     }
     if (pg.tipo){
       where['tipo_electricidad_id'] = pg.tipo;
     }
     if (pg.fecha){
       where['fecha_ingreso'] = pg.fecha;
+    }
+    if (pg.cantidad){
+      where['cantidad'] = pg.cantidad;
     }
     const count = await this.electricidadIngresoRepo.count({ where });
     const rows = await this.electricidadIngresoRepo.find({
@@ -71,13 +74,17 @@ export class ElectricidadService {
     delete dto.id;
     return this[repository].update(id, dto);
   }
-
-  getReporteElectricidadByDate = ({ tipoDate, valueDate }: GetReporteByTypeAndDateDto) => 
-    this.electricidadIngresoRepo.query(`SELECT tip.id, tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, SUM(ing.cantidad) as  cantidad
-          FROM tb_huellacarbono_electricidad_ingreso ing
-          INNER JOIN tb_huellacarbono_electricidad_tipo tip ON ing.tipo_electricidad_id = tip.id
-          WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}' AND tip.flag_activo = 'true'
-          GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id`);
-  
+ 
+  getReporteElectricidadByDate = ({ tipoDate, valueDate, locacion }: GetReporteByTypeAndDateDto) => {
+    let query = `SELECT tip.id, tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, SUM(ing.cantidad) as  cantidad
+                 FROM tb_huellacarbono_electricidad_ingreso ing
+                 INNER JOIN tb_huellacarbono_electricidad_tipo tip ON ing.tipo_electricidad_id = tip.id
+                 WHERE ${tipoDate}(ing.fecha_ingreso) = '${valueDate}' AND tip.flag_activo = 'true'`;
+    if (locacion) {
+        query += ` AND ing.area = '${locacion}'`;
+    }
+    query += ` GROUP BY tip.nombre, tip.unidad, tip.ch4, tip.factor, tip.valor_neto, tip.co2, tip.n2o, tip.id`;
+    return this.electricidadIngresoRepo.query(query);
+  }
 
 }

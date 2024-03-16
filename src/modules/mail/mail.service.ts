@@ -11,7 +11,7 @@ export class MailService {
     async sendEmailExample(user: sendEmail) {
         return await this.mailerService.sendMail({
             to: user.email,
-            subject: user.code + ' es el código de recuperación de tu cuenta de Facebook',
+            subject: user.code + ' es el código de recuperación de tu cuenta de Huella de Carbono',
             template: 'template',
             context:{
                 nombre: user.nombre,

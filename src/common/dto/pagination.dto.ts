@@ -52,6 +52,6 @@ export default class PaginationDto {
     fecha?: string = '';
 
     @IsOptional()
-    unidad?: string = '';
+    cantidad?: number = 0;
 
 }
