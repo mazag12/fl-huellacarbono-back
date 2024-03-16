@@ -27,6 +27,7 @@ export class UserService {
   async getAllUsuarios(pg: PaginationDto) {
     let where;
     let count;
+    let rows;
 
     if (pg.filter && pg.filter !== '') {
       let filterValue = pg.filter;
@@ -41,17 +42,31 @@ export class UserService {
       )`);
       
       count = where.length
+      console.log(count)
+      if(count=== 0){ 
+        rows = []
+      }else{
+        rows = await this.userRepository.find({
+          where,
+          take: pg.limit,
+          skip: pg.offset,
+          order: { id: 'DESC' },
+        });
+      }
+      console.log(rows)
+      
     } else {
-       where = createFilter(pg);   
-        count = await this.userRepository.count({ where });    
+        where = createFilter(pg);   
+        count = await this.userRepository.count({ where });
+        rows = await this.userRepository.find({
+          where,
+          take: pg.limit,
+          skip: pg.offset,
+          order: { id: 'DESC' },
+        });   
     }
 
-    const rows = await this.userRepository.find({
-      where,
-      take: pg.limit,
-      skip: pg.offset,
-      order: { id: 'DESC' },
-    });
+    
 
     return { count, rows };  
   }
