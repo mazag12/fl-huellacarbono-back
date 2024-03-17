@@ -29,7 +29,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const { code, password } = loginDto;
-
+    let isValid = true;
     const user = await this.userRepository.findOne({
       where: { code },
       select: ['id', 'code', 'email', 'nombre', 'apellido', 'password', 'isActive', 'role'],
@@ -38,12 +38,16 @@ export class AuthService {
     if (!user.isActive) throw new UnauthorizedException('El usuario no esta activo');
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Contraseña incorrecta');
+    
+    if(user.password == '$2b$10$rnnPp/Whd2Wa8Vt5bqxGbuIBC0OZQWmlAu4zxoxWEvj2PVhDqreea'){
+      isValid = false;
+    }
 
-    return await this.getJwtToken(user);
+    return await this.getJwtToken(user, isValid);
   }
 
-  getJwtToken = ({ id, email, nombre, apellido, code, role }) => 
-    this.jwtService.signAsync({ sub: +id, email, nombre, apellido, code, role })
+  getJwtToken = ({ id, email, nombre, apellido, code, role }, isValid) => 
+    this.jwtService.signAsync({ sub: +id, email, nombre, apellido, code, role, isValid })
 
   async getinfo(code: string){
     const user = await this.userRepository.findOne({
