@@ -7,8 +7,6 @@ import { createFilter } from 'src/common/utils/filter';
 import { AuthUser } from './interfaces/auth-user.interface';
 import { Accesos } from './entities/accesos.entity';
 import { PostAccesoDto } from './dto/post-acceso.dto';
-import { CreateUsuarioDto } from './dto';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -25,44 +23,15 @@ export class UserService {
   ) {}
 
   async getAllUsuarios(pg: PaginationDto) {
-    let where;
-    let count;
-    let rows;
-
-    if (pg.filter && pg.filter !== '') {
-      let filterValue = pg.filter;
-      where = await this.DEV.query(`
-      SELECT email, isActive, id, code, nombre, apellido, role
-      FROM tb_huellacarbono_user WHERE (
-        id LIKE '%${filterValue}%'
-        OR code LIKE '%${filterValue}%'
-        OR email LIKE '%${filterValue}%'
-        OR nombre LIKE '%${filterValue}%'
-        OR apellido LIKE '%${filterValue}%'
-      )`);
-      
-      count = where.length
-      if(count=== 0){ 
-        rows = []
-      }else{
-        rows = await this.userRepository.find({
-          where,
-          take: pg.limit,
-          skip: pg.offset,
-          order: { id: 'DESC' },
-        });
-      }      
-    } else {
-        where = createFilter(pg);   
-        count = await this.userRepository.count({ where });
-        rows = await this.userRepository.find({
-          where,
-          take: pg.limit,
-          skip: pg.offset,
-          order: { id: 'DESC' },
-        });   
-    }
-    return { count, rows };  
+    const where = createFilter(pg);
+    const count = await this.userRepository.count({ where });
+    const rows = await this.userRepository.find({
+      where,
+      take: pg.limit,
+      skip: pg.offset,
+      order: { id: 'DESC' },
+    });
+    return { count, rows };
   }
 
   getAllUsuarioIngresoById = (id : number) => this.userRepository.findOneBy({id});

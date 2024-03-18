@@ -64,8 +64,8 @@ export class AuthService {
     return { message: "Correo enviado" };
   }
 
-  async PostResetPassword(dto: PasswordReset) {
-    await this.userRepository.update(dto.id, {password: bcrypt.hashSync(dto.password, 10)});
+  async patchResetPassword(dto: PasswordReset) {
+    await this.userRepository.update(dto.id, { password: bcrypt.hashSync(dto.password, 10) });
     return {message: 'Se reseteo la Contraseña'};
   }
 

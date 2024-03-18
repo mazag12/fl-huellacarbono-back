@@ -33,9 +33,10 @@ export class AuthController {
 
   @Public()
   //@ApiBearerAuth()
+  //TODO Cambiar nombre del end-point
   @Post('signup')
   register(@Body() password: PasswordReset) {
-    return this.authService.PostResetPassword(password);
+    return this.authService.patchResetPassword(password);
   }
   
 

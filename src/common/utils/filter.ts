@@ -22,10 +22,10 @@ export function createFilter(pg: PaginationDto) {
   const key = pg.key?.split(',');
   const operator = pg.operator?.split(',');
   const value = JSON.parse(pg.value || '{}');
+  //* {{URL}}/end-point-x?key=id,fecha_creacion,eliminados&operator=eq,between,eq&value["10",["2023","2024"],"True"]
 
   return (key as any)?.reduce((acc, v, i) => {
     acc[v] = conditionalOperator(operator[i], value[i]);
-    console.log(acc);
     return acc;
   }, {});
 }
