@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import PaginationDto from 'src/common/dto/pagination.dto';
 import { User } from './decorators/get-user.decorator';
 import { AuthUser } from './interfaces/auth-user.interface';
 import { PostAccesoDto } from './dto/post-acceso.dto';
+import { PutAccesosDto } from './dto/put-acceso.dto';
 
 @ApiBearerAuth()
 @ApiTags('Administracion Usuarios & Accesos')
@@ -27,9 +28,9 @@ export class UserController {
     return this.userService.postAcceso(dt, u);
   }
 
-  @Delete('acceso')
-  deleteAcceso(@Query('user_id') user_id: number, @Query('modulo_id') modulo_id: number, @User() u: AuthUser) {
-      return this.userService.deleteAcceso(user_id, modulo_id, u);
+  @Put('acceso')
+  updateActualizarAcceso(@User() u: AuthUser, @Body() dt: PutAccesosDto) {
+      return this.userService.updateActualizarAcceso(dt, u);
   }
 
 }

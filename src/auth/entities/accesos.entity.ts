@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity({ name: 'tb_huellacarbono_acceso' })
@@ -23,6 +23,9 @@ export class Accesos {
 
     @Column('varchar', { length: 6, nullable: true })
     persona_upd: string;
+
+    @Column('bit', { default: 1 })
+    flag_activo: boolean;
     
     // @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     @CreateDateColumn({ select: false })
@@ -31,8 +34,5 @@ export class Accesos {
     // @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     @UpdateDateColumn({ select: false })
     updatedAt: Date;
-    
-    @DeleteDateColumn({ select: false })
-    deletedAt: Date;
 
 }
