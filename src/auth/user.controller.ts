@@ -28,8 +28,8 @@ export class UserController {
   }
 
   @Delete('acceso')
-  deleteAcceso(@Query('acceso_id') acceso_id: number, @User() u: AuthUser) {
-      return this.userService.deleteAcceso(acceso_id, u);
+  deleteAcceso(@Query('user_id') user_id: number, @Query('modulo_id') modulo_id: number, @User() u: AuthUser) {
+      return this.userService.deleteAcceso(user_id, modulo_id, u);
   }
 
 }

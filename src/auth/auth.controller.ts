@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, CreateUsuarioDto, UpdateUserDto } from './dto';
+import { LoginDto, CreateUsuarioDto, UpdateUserDto, PasswordReset } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from './guards/no-jwt.guard';
 import { SendMail } from './dto/sendmail.dto';
@@ -34,8 +34,16 @@ export class AuthController {
   @Public()
   //@ApiBearerAuth()
   @Post('signup')
-  register(@Body() createUserDto: CreateUsuarioDto) {
-    return this.authService.register(createUserDto);
+  register(@Body() password: PasswordReset) {
+    return this.authService.PostResetPassword(password);
   }
   
+
+  //@Public()
+  @ApiBearerAuth()
+  @Post('ingreso')
+  postUser(@Body() dto: CreateUsuarioDto) {
+    return this.authService.upsertUser(dto);
+  }
+
 }

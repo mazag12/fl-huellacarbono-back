@@ -42,7 +42,6 @@ export class UserService {
       )`);
       
       count = where.length
-      console.log(count)
       if(count=== 0){ 
         rows = []
       }else{
@@ -52,9 +51,7 @@ export class UserService {
           skip: pg.offset,
           order: { id: 'DESC' },
         });
-      }
-      console.log(rows)
-      
+      }      
     } else {
         where = createFilter(pg);   
         count = await this.userRepository.count({ where });
@@ -65,15 +62,13 @@ export class UserService {
           order: { id: 'DESC' },
         });   
     }
-
-    
-
     return { count, rows };  
   }
 
   getAllUsuarioIngresoById = (id : number) => this.userRepository.findOneBy({id});
 
-  async deleteAcceso(id: number, u: AuthUser) {
+  async deleteAcceso(user_id: number, modulo_id: number, u: AuthUser) {
+    const id = await this.accesosRepository.findOneBy({user_id: user_id, modulo_id: modulo_id});
     await this.accesosRepository.softDelete(id);
     return await this.accesosRepository.update(id, { persona_upd: u.code });
   }

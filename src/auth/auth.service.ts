@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
-import { LoginDto, CreateUsuarioDto, UpdateUserDto } from './dto';
+import { LoginDto, CreateUsuarioDto, PasswordReset } from './dto';
 import { AuthUser } from './interfaces/auth-user.interface';
 import { DataSource, Repository } from 'typeorm';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
@@ -64,15 +64,21 @@ export class AuthService {
     return { message: "Correo enviado" };
   }
 
-  async register(dto: CreateUsuarioDto) {
-    const userData  = dto;
-    let user;
-    if(userData.id){
-      user = await this.userRepository.update(userData.id, {password: bcrypt.hashSync(userData.password, 10)});
-    }else{
-      user = await this.userRepository.save({ ...userData, password: bcrypt.hashSync(userData.password, 10)});
-    }
-    return user;
+  async PostResetPassword(dto: PasswordReset) {
+    await this.userRepository.update(dto.id, {password: bcrypt.hashSync(dto.password, 10)});
+    return {message: 'Se reseteo la Contraseña'};
   }
+
+  upsertUser = (dt: CreateUsuarioDto) =>
+    dt.id
+      ? this.methodFromDtoAndUpdate(dt.id, dt, 'userRepository')
+      : this.userRepository.save(dt);
+
+
+  methodFromDtoAndUpdate = (id: number, dto, repository) => {
+    delete dto.id;
+    return this[repository].update(id, dto);
+  }
+
 
 }
