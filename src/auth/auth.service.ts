@@ -39,7 +39,7 @@ export class AuthService {
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Contraseña incorrecta');
     
-    if(user.password == '$2b$10$rnnPp/Whd2Wa8Vt5bqxGbuIBC0OZQWmlAu4zxoxWEvj2PVhDqreea'){
+    if(bcrypt.compareSync('Sostenibilidad2024@', user.password)){
       isValid = false;
     }
 
