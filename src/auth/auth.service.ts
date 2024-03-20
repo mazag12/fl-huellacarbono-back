@@ -72,7 +72,7 @@ export class AuthService {
   upsertUser = (dt: CreateUsuarioDto) =>
     dt.id
       ? this.methodFromDtoAndUpdate(dt.id, dt, 'userRepository')
-      : this.userRepository.save(dt);
+      : this.userRepository.save({...dt, password: bcrypt.hashSync(dt.password, 10) }) ;
 
 
   methodFromDtoAndUpdate = (id: number, dto, repository) => {
